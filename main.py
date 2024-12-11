@@ -1,7 +1,10 @@
 import os
+
 import mysql.connector
 from dotenv import load_dotenv
 from elasticsearch import Elasticsearch
+
+from data_do_well_sdk import DataDoWellCli
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DIR_NAME = BASE_DIR.split(os.path.sep)[-1]
@@ -43,6 +46,7 @@ def fetch_firm_list():
 
 
 if __name__ == '__main__':
+    ddwCli = DataDoWellCli(debug=True)
     firm_list = fetch_firm_list()
     for i, firm in enumerate(firm_list, 1):
         print(i, firm)
@@ -59,15 +63,25 @@ if __name__ == '__main__':
         hits = resp["hits"]["hits"]
         total = len(hits)
         print("\t\t", took, total)
-        for hit in hits:
-            _source = hit["_source"]
-            _id = hit["_id"]
-            print("\t\t" * 2, _id)
+        if total > 1:
+            for hit in hits:
+                _source = hit["_source"]
+                _id = hit["_id"]
+                print("\t\t" * 2, _id)
+            raise Exception("Too many hits")
         # TODO: 从五度易链API开放平台的接口中调取多维数据
         # TODO: 实现接口缓存
+        # TODO: 股权质押
+        resp_data = ddwCli.company_impawn_query(firm_uncid)
+        impawn_data = resp_data["IMPAWN"]
+        data_list = resp_data['datalist']
+
+        pass
         # TODO: 行政许可
+        resp = ddwCli.company_certificate_query(firm_uncid)
+        pass
+
         # TODO: 荣誉资质
         # TODO: 严重违法
         # TODO: 严重违法
         # TODO: 新闻舆情
-
