@@ -4,12 +4,7 @@ import time
 import requests
 from dotenv import load_dotenv
 
-from data_do_well_sdk import calculate_sign
-
-
-def debug(*args, **kwargs):
-    print("(调试信息) ", *args)
-
+from fiveDegreeEasyChainSDK import calculate_sign, debug
 
 load_dotenv("/Users/shadikesadamu/.config/HZXY-DataHandling/.env")
 APP_ID = os.getenv("DATA_DO_WELL_API_KEY")

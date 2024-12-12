@@ -4,7 +4,7 @@ import mysql.connector
 from dotenv import load_dotenv
 from elasticsearch import Elasticsearch
 
-from data_do_well_sdk import DataDoWellCli
+from fiveDegreeEasyChainSDK import EasyChainCli
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DIR_NAME = BASE_DIR.split(os.path.sep)[-1]
@@ -46,10 +46,10 @@ def fetch_firm_list():
 
 
 if __name__ == '__main__':
-    ddwCli = DataDoWellCli(debug=True)
+    ddwCli = EasyChainCli(debug=True)
     firm_list = fetch_firm_list()
     for i, firm in enumerate(firm_list, 1):
-        print(i, firm)
+        print(i, firm, end=' ')
         db_id, chain_id, chain_name, chain_node_id, chain_node_name, firm_uncid, is_local_fir, has_over = firm
         resp = es_slrc.search(index="hzxy_nation_global_enterprise", query={
             "term": {
@@ -62,7 +62,7 @@ if __name__ == '__main__':
         took = resp['took']
         hits = resp["hits"]["hits"]
         total = len(hits)
-        print("\t\t", took, total)
+        print(took, total)
         if total > 1:
             for hit in hits:
                 _source = hit["_source"]
@@ -73,8 +73,12 @@ if __name__ == '__main__':
         # TODO: 实现接口缓存
         # TODO: 股权质押
         resp_data = ddwCli.company_impawn_query(firm_uncid)
-        impawn_data = resp_data["IMPAWN"]
-        data_list = resp_data['datalist']
+        impawn = resp_data["IMPAWN"]
+        impawn_total = impawn["total"]
+        if impawn_total > 0:
+            impawn_list = impawn['datalist']
+            for impawn_item in impawn_list:
+                pass
 
         pass
         # TODO: 行政许可

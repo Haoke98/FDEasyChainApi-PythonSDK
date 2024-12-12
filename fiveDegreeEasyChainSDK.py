@@ -88,7 +88,8 @@ class APICache:
             cache_file.unlink(missing_ok=True)
 
 
-class DataDoWellCli:
+# FiveDegreeEasyChain 5度易链
+class EasyChainCli:
     def __init__(self, debug: bool = False, cache_expire_seconds: int = 30 * 24 * 3600):  # 默认30天
         self.app_id = os.getenv("DATA_DO_WELL_API_KEY")
         self.app_secret = os.getenv("DATA_DO_WELL_API_SECRET")
