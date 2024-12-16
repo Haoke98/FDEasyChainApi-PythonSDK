@@ -2,7 +2,7 @@ import os
 
 import mysql.connector
 from dotenv import load_dotenv
-from elasticsearch import Elasticsearch
+from elasticsearch import Elasticsearch, helpers
 
 from fiveDegreeEasyChainSDK import EasyChainCli
 
@@ -18,9 +18,10 @@ ENV_FILE_PATH = os.path.join(PROJ_CONFIG_DIR, ".env")
 print("ENV_FILE_PATH:", ENV_FILE_PATH)
 load_dotenv(ENV_FILE_PATH)
 
-es_slrc = Elasticsearch(hosts=os.getenv('SLRC_ES_PROTOCOL') + "://" + os.getenv('SLRC_ES_HOST'),
-                        basic_auth=(os.getenv("SLRC_ES_USERNAME"), os.getenv("SLRC_ES_PASSWORD")),
-                        ca_certs=os.getenv("SLRC_ES_CA"), request_timeout=3600)
+esCli = Elasticsearch(hosts=os.getenv('SLRC_ES_PROTOCOL') + "://" + os.getenv('SLRC_ES_HOST'),
+                      basic_auth=(os.getenv("SLRC_ES_USERNAME"), os.getenv("SLRC_ES_PASSWORD")),
+                      ca_certs=os.getenv("SLRC_ES_CA"), request_timeout=3600)
+INDEX = "ent-mdsi-v4"
 
 
 def get_db_connection():
@@ -48,36 +49,53 @@ def fetch_firm_list():
 if __name__ == '__main__':
     ddwCli = EasyChainCli(debug=True)
     firm_list = fetch_firm_list()
+    total = len(firm_list)
     for i, firm in enumerate(firm_list, 1):
-        print(i, firm, end=' ')
+        progress = i / total * 100
+        print(f"{progress:.2f}% ({i}/{total})", firm, end=':\n')
         db_id, chain_id, chain_name, chain_node_id, chain_node_name, firm_uncid, is_local_fir, has_over = firm
-        resp = es_slrc.search(index="hzxy_nation_global_enterprise", query={
-            "term": {
-                "firmUncid": {
-                    "value": firm_uncid
-                }
-            }
-
-        })
-        took = resp['took']
-        hits = resp["hits"]["hits"]
-        total = len(hits)
-        print(took, total)
-        if total > 1:
-            for hit in hits:
-                _source = hit["_source"]
-                _id = hit["_id"]
-                print("\t\t" * 2, _id)
-            raise Exception("Too many hits")
         # TODO: 从五度易链API开放平台的接口中调取多维数据
-        # TODO: 实现接口缓存
         # TODO: 股权质押
         resp_data = ddwCli.company_impawn_query(firm_uncid)
         impawn = resp_data["IMPAWN"]
         impawn_total = impawn["total"]
+        print("\t\t", "股权押质: ", impawn_total)
         if impawn_total > 0:
             impawn_list = impawn['datalist']
+            bulk_actions = []
             for impawn_item in impawn_list:
+                pledge_info = {
+                    "pledgor": impawn_item["pledgor"],  # 出质人
+                    "relatedCompany": impawn_item["RelatedCompany"],  # 出质股权标的企业
+                    "pledgee": impawn_item["IMPORG"],  # 质权人
+                    "amount": impawn_item["IMPAM"],  # 质押金额
+                    "execState": impawn_item["EXESTATE"],  # 执行状态
+                    "recDate": impawn_item["IMPONRECDATE"],  # 质押备案日期
+                }
+                # 假设每个pledge_info是一个字典，包含股权质押信息
+                # 构建更新操作的action部分
+                action = {
+                    "_op_type": "update",
+                    "_index": INDEX,
+                    "_id": firm_uncid,
+                    "script": {
+                        "source": "if (ctx._source.sharePledgeData.dataList == null) { ctx._source.sharePledgeData.dataList = []; } ctx._source.sharePledgeData.dataList.add(params.pledgeInfo);",
+                        "params": {
+                            "pledgeInfo": pledge_info
+                        }
+                    }
+
+                }
+                # 将action添加到bulk请求体中
+                bulk_actions.append(action)
+                # 使用helpers.bulk来执行bulk更新
+            try:
+                success_count, errors = helpers.bulk(esCli, bulk_actions, raise_on_error=False)
+                if errors:
+                    print(f"Bulk update completed with errors: {errors}")
+                else:
+                    print(f"Bulk update completed successfully. Updated {success_count} documents.")
+            except Exception as e:
                 pass
 
         pass
