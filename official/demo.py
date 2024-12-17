@@ -4,7 +4,7 @@ import time
 import requests
 from dotenv import load_dotenv
 
-from fiveDegreeEasyChainSDK import calculate_sign, debug
+from FDEasyChainSDK.utils import debug, calculate_sign
 
 load_dotenv("/Users/shadikesadamu/.config/HZXY-DataHandling/.env")
 APP_ID = os.getenv("DATA_DO_WELL_API_KEY")

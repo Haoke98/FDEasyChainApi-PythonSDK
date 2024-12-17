@@ -2,8 +2,10 @@
 """====================================
 @Author:Sadam·Sadik
 @Email：1903249375@qq.com
-@Date：2024/12/12
+@Date：2024/12/17
 @Software: PyCharm
 @disc:
 ======================================="""
+__version__ = "v1.0.0"
 
+from .core import EasyChainCli
