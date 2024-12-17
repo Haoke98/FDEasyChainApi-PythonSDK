@@ -4,13 +4,13 @@ import mysql.connector
 from dotenv import load_dotenv
 from elasticsearch import Elasticsearch, helpers
 
-from fiveDegreeEasyChainSDK import EasyChainCli
+from FDEasyChainSDK import EasyChainCli
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DIR_NAME = BASE_DIR.split(os.path.sep)[-1]
 USER_HOME_DIR = os.path.expanduser("~")
 USER_CONFIG_DIR = os.path.join(USER_HOME_DIR, ".config")
-PROJ_CONFIG_DIR = os.path.join(USER_CONFIG_DIR, DIR_NAME)
+PROJ_CONFIG_DIR = os.path.join(USER_CONFIG_DIR, "HZXY-DataHandling")
 print("PROJ_CONFIG_DIR:", PROJ_CONFIG_DIR)
 if not os.path.exists(PROJ_CONFIG_DIR):
     os.makedirs(PROJ_CONFIG_DIR)
@@ -79,7 +79,15 @@ if __name__ == '__main__':
                     "_index": INDEX,
                     "_id": firm_uncid,
                     "script": {
-                        "source": "if (ctx._source.sharePledgeData.dataList == null) { ctx._source.sharePledgeData.dataList = []; } ctx._source.sharePledgeData.dataList.add(params.pledgeInfo);",
+                        "source": '''
+                        if (ctx._source.sharePledgeData == null) {
+                             ctx._source.sharePledgeData = [:];
+                        }
+                        if (ctx._source.sharePledgeData.dataList == null) {
+                            ctx._source.sharePledgeData.dataList = []; 
+                        } 
+                        ctx._source.sharePledgeData.dataList.add(params.pledgeInfo);
+                        ''',
                         "params": {
                             "pledgeInfo": pledge_info
                         }
@@ -92,7 +100,16 @@ if __name__ == '__main__':
             try:
                 success_count, errors = helpers.bulk(esCli, bulk_actions, raise_on_error=False)
                 if errors:
-                    print(f"Bulk update completed with errors: {errors}")
+                    for j, err in enumerate(errors):
+                        updateBox = err['update']
+                        status = updateBox['status']
+                        errorBox = updateBox['error']
+                        errType = errorBox['type']
+                        if errType == 'document_missing_exception':
+                            pass
+                        else:
+                            print(f"Error.{j}: ", errorBox)
+                            raise Exception(err['error'])
                 else:
                     print(f"Bulk update completed successfully. Updated {success_count} documents.")
             except Exception as e:
