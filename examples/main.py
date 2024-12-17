@@ -10,7 +10,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DIR_NAME = BASE_DIR.split(os.path.sep)[-1]
 USER_HOME_DIR = os.path.expanduser("~")
 USER_CONFIG_DIR = os.path.join(USER_HOME_DIR, ".config")
-PROJ_CONFIG_DIR = os.path.join(USER_CONFIG_DIR, "HZXY-DataHandling")
+PROJ_CONFIG_DIR = os.path.join(USER_CONFIG_DIR, "FDEasyChain")
 print("PROJ_CONFIG_DIR:", PROJ_CONFIG_DIR)
 if not os.path.exists(PROJ_CONFIG_DIR):
     os.makedirs(PROJ_CONFIG_DIR)
@@ -70,7 +70,7 @@ if __name__ == '__main__':
                     "pledgee": impawn_item["IMPORG"],  # 质权人
                     "amount": impawn_item["IMPAM"],  # 质押金额
                     "execState": impawn_item["EXESTATE"],  # 执行状态
-                    "recDate": impawn_item["IMPONRECDATE"],  # 质押备案日期
+                    "recDate": impawn_item.get("IMPONRECDATE", None)  # 质押备案日期
                 }
                 # 假设每个pledge_info是一个字典，包含股权质押信息
                 # 构建更新操作的action部分

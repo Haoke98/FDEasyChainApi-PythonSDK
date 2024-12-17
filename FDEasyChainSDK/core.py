@@ -21,8 +21,9 @@ class APICache:
     def __init__(self, expire_seconds: int = 30 * 24 * 3600):  # 默认30天
         self.expire_seconds = expire_seconds
         # 在用户主目录下创建缓存目录
-        self.cache_dir = Path.home() / '.data_do_well_cache'
-        self.cache_dir.mkdir(exist_ok=True)
+        self.cache_dir = Path.home() / '.data-crawled' / 'FDEasyChain'
+        print("CacheDir:",self.cache_dir)
+        self.cache_dir.mkdir(exist_ok=True, parents=True)
 
     def _get_cache_file(self, key: str) -> Path:
         # 使用MD5对缓存键进行哈希，避免文件名过长或包含特殊字符
