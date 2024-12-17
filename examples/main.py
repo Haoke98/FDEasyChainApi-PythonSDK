@@ -1,3 +1,4 @@
+import logging
 import os
 
 import mysql.connector
@@ -57,6 +58,9 @@ if __name__ == '__main__':
         # TODO: 从五度易链API开放平台的接口中调取多维数据
         # TODO: 股权质押
         resp_data = ddwCli.company_impawn_query(firm_uncid)
+        if resp_data is None:
+            logging.error(f"企业[{firm_uncid}]没有股权质押数据，接口返回没有data字段体")
+            continue
         impawn = resp_data["IMPAWN"]
         impawn_total = impawn["total"]
         print("\t\t", "股权押质: ", impawn_total)
@@ -106,10 +110,10 @@ if __name__ == '__main__':
                         errorBox = updateBox['error']
                         errType = errorBox['type']
                         if errType == 'document_missing_exception':
-                            pass
+                            raise Exception(errorBox)
                         else:
                             print(f"Error.{j}: ", errorBox)
-                            raise Exception(err['error'])
+                            raise Exception(errorBox)
                 else:
                     print(f"Bulk update completed successfully. Updated {success_count} documents.")
             except Exception as e:

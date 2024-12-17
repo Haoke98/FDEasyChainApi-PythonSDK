@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any
 import requests
 
-from FDEasyChainSDK.utils import calculate_sign, generate_timestamp
+from FDEasyChainSDK.utils import calculate_sign, generate_timestamp, logger
 
 
 class APICache:
@@ -71,6 +71,8 @@ class EasyChainCli:
         self.api_endpoint = "https://gateway.qyxqk.com/wdyl/openapi"
         self.debug = debug
         self._cache = APICache(expire_seconds=cache_expire_seconds)
+        # 初始化logger
+        logger.init("EasyChainCli")
 
     def __calculate_sign__(self, request_body, timestamp):
         return calculate_sign(self.app_id, timestamp, self.app_secret, request_body)
@@ -119,8 +121,8 @@ class EasyChainCli:
             resp_json = response.json()
             service_code = resp_json.get("code")
             if service_code == 200:
-                result = resp_json["data"]
-                # 存入缓存
+                result = resp_json.get("data",None)
+                    # 存入缓存
                 self._cache.set(cache_key, result)
                 return result
             else:
