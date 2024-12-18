@@ -91,6 +91,7 @@ if __name__ == '__main__':
                             ctx._source.sharePledgeData.dataList = []; 
                         } 
                         ctx._source.sharePledgeData.dataList.add(params.pledgeInfo);
+                        ctx._source.sharePledgeData.totalNum=ctx._source.sharePledgeData.dataList.length;
                         ''',
                         "params": {
                             "pledgeInfo": pledge_info
