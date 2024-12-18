@@ -8,6 +8,7 @@
 ======================================="""
 import hashlib
 import json
+import logging
 import os
 import time
 from pathlib import Path
@@ -112,8 +113,16 @@ class EasyChainCli:
 
         if self.debug:
             print("(调试信息) Headers:", headers)
-        response = requests.post(url, headers=headers, data=request_body)
-
+        n = 1
+        while True:
+            try:
+                response = requests.post(url, headers=headers, data=request_body)
+                break
+            except requests.exceptions.ConnectionError as e:
+                delay=n*1
+                logging.error(e)
+                print(f"等待{delay}s 后再进行请求....")
+                time.sleep(delay)
         if self.debug:
             print(f"(调试信息) Response({response.status_code}):", response.text)
 
