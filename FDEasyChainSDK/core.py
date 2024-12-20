@@ -23,7 +23,7 @@ class APICache:
         self.expire_seconds = expire_seconds
         # 在用户主目录下创建缓存目录
         self.cache_dir = Path.home() / '.data-crawled' / 'FDEasyChain'
-        print("CacheDir:",self.cache_dir)
+        print("CacheDir:", self.cache_dir)
         self.cache_dir.mkdir(exist_ok=True, parents=True)
 
     def _get_cache_file(self, key: str) -> Path:
@@ -119,7 +119,7 @@ class EasyChainCli:
                 response = requests.post(url, headers=headers, data=request_body)
                 break
             except requests.exceptions.ConnectionError as e:
-                delay=n*1
+                delay = n * 1
                 logging.error(e)
                 print(f"等待{delay}s 后再进行请求....")
                 time.sleep(delay)
@@ -130,8 +130,8 @@ class EasyChainCli:
             resp_json = response.json()
             service_code = resp_json.get("code")
             if service_code == 200:
-                result = resp_json.get("data",None)
-                    # 存入缓存
+                result = resp_json.get("data", None)
+                # 存入缓存
                 self._cache.set(cache_key, result)
                 return result
             else:
@@ -139,29 +139,42 @@ class EasyChainCli:
         else:
             raise Exception("请求异常")
 
-    def company_certificate_query(self, uscc: str):
+    def company_certificate_query(self, key: str,page_index: int = 1, page_size: int = 20):
         """
         行政许可证
-        :param uscc: 社会统一信用代码
+        :param key: 关键词(企业id/ 企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 每页大小，默认20
+        :return: 当前企业的许可证信息列表
         """
-        request_body = '{"key": "%s"}' % uscc
+        request_body = {"key": key}
+        if page_index != 1:
+            request_body["page_index"] = page_index
+        if page_size != 20:
+            request_body["page_size"] = page_size
         # api_path 的最后斜杠后缀必须要带
         return self.__post__('/company_certificate_query/', request_body)
 
-    def company_impawn_query(self, uscc: str):
+    def company_impawn_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
         股权质押
-        :param uscc:
-        :return:
+        :param key: 关键词(企业id/ 企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 每页大小，默认20
+        :return: 当前企业的股权质押信息列表
         """
-        request_body = '{"key": "%s"}' % uscc
+        request_body = {"key": key}
+        if page_index != 1:
+            request_body["page_index"] = page_index
+        if page_size != 20:
+            request_body["page_size"] = page_size
         return self.__post__('/company_impawn_query/', request_body)
-    
-    def company_bid_list_query(self, key: str, noticetype: str = None, btype: str = None, 
-                             gdate: str = None, page_index: int = 1, page_size: int = 20):
+
+    def company_bid_list_query(self, key: str, noticetype: str = None, btype: str = None,
+                               gdate: str = None, page_index: int = 1, page_size: int = 20):
         """
         公司招投标信息查询
-        :param key: 统一社会信用代码/企业完整名称
+        :param key: 关键词(企业id/ 企业完整名称/社会统一信用代码)
         :param noticetype: 公告类型，可选
         :param btype: 角色，可选
         :param gdate: 公告年份，如2021，可选
@@ -178,8 +191,6 @@ class EasyChainCli:
             params["gdate"] = gdate
         params["page_index"] = page_index
         params["page_size"] = page_size
-        
+
         request_body = json.dumps(params)
         return self.__post__('/company_bid_list_query/', request_body)
-    
-    
