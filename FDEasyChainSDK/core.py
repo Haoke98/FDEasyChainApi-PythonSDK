@@ -97,7 +97,7 @@ class EasyChainCli:
         cached_result = self._cache.get(cache_key)
         if cached_result is not None:
             if self.debug:
-                print(f"(调试信息) Response(缓��):", cached_result)
+                print(f"(调试信息) Response(缓存):", cached_result)
             return cached_result
 
         timestamp = generate_timestamp()
@@ -196,7 +196,7 @@ class EasyChainCli:
     def company_news_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
         企业新闻舆情查询
-        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代���)
         :param page_index: 页码索引，默认1
         :param page_size: 页面大小，默认20
         :return: 企业新闻舆情数据列表，包含以下字段：
@@ -312,3 +312,120 @@ class EasyChainCli:
             "page_size": page_size
         }
         return self.__post__('/company_vc_inv_query/', request_body)
+
+    def company_cnca5_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业认证认可查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业认证认可数据，包含以下字段：
+                - total: 返回总数
+                - datalist: 数据列表
+                    - cert_project: 认证项目
+                    - cert_type: 证书类型
+                    - award_date: 颁证日期
+                    - expire_date: 证书到期日期
+                    - cert_num: 证书编号
+                    - org_num: 机构批准号
+                    - org_name: 机构名称
+                    - cert_status: 证书状态
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_cnca5_query/', request_body)
+
+    def company_aggre_cert_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业电信许可证查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业电信许可证数据，包含以下字段：
+                - total: 返回总数
+                - datalist: 数据列表
+                    - ENTNAME: 企业名称
+                    - LICSCOPE: 许可范围
+                    - LICNAME: 许可文件名称
+                    - LICNO: 许可文件编号
+                    - VALFROM: 有效期自
+                    - VALTO: 有效期至
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_aggre_cert_query/', request_body)
+
+    def company_mirland_transfer_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业土地转让查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业土地转让数据，包含以下字段：
+                - total: 返回总数
+                - datalist: 数据列表
+                    - ENTNAME: 企业名称
+                    - address: 宗地地址
+                    - city: 行政区
+                    - ENTNAME_A: 原土地使用权人
+                    - ENTNAME_B: 现土地使用权人
+                    - trans_date: 成交时间
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_mirland_transfer_query/', request_body)
+
+    def company_job_info_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业招聘信息查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业招聘数据，包含以下字段：
+                - total: 返回总数
+                - datalist: 数据列表
+                    - ENTNAME: 公司名称
+                    - title: 招聘标题
+                    - pdate: 发布日期
+                    - salary: 薪资
+                    - province: 工作省份
+                    - city: 工作城市
+                    - experience: 工作年限
+                    - education: 学历
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_job_info_query/', request_body)
+
+    def company_tax_rating_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业纳税信用等级查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业纳税信用等级数据，包含以下字段：
+                - total: 返回总数
+                - datalist: 数据列表
+                    - TAXID: 纳税人识别号
+                    - ENTNAME: 企业名称
+                    - tyear: 评定年份
+                    - rating: 评级
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_tax_rating_query/', request_body)
