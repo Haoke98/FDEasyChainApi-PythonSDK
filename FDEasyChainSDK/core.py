@@ -97,7 +97,7 @@ class EasyChainCli:
         cached_result = self._cache.get(cache_key)
         if cached_result is not None:
             if self.debug:
-                print(f"(调试信息) Response(缓��):", cached_result)
+                print(f"(调试信息) Response(缓存):", cached_result)
             return cached_result
 
         timestamp = generate_timestamp()
@@ -181,13 +181,38 @@ class EasyChainCli:
                                gdate: str = None, page_index: int = 1, page_size: int = 20):
         """
         公司招投标信息查询
-        :param key: 关键词(企业id/ 企业完整名称/社会统一信用代码)
-        :param noticetype: 公告类型，可选
-        :param btype: 角色，可选
+        :param key: 关键词(企业id/企业完整名称/统一社会信用代码)
+        :param noticetype: 公告类型，可选值：
+                          01招标公告、02中标公告、03废标公告、
+                          04更正公告、05延期公告、06终止公告、
+                          07资格预审、08询价公告、09竞争性谈判、
+                          10竞争性磋商、11单一来源、12其他、
+                          13成交公告、14流标公告、15结果公告、
+                          16合同公告、17解除公告、18答疑澄清、
+                          19资格预审
+        :param btype: 角色类型，可选值：
+                       95项目、01供应方、1中标方、2投标方、3代理方
         :param gdate: 公告年份，如2021，可选
         :param page_index: 页码索引，默认1
         :param page_size: 每页大小，默认20
-        :return: 招投标信息列表
+        :return: 招投标信息列表，包含以下字段：
+                - data: 返回的数据对象
+                - BIDLIST: 企业招标信息数据
+                - total: 返回总数
+                - datalist: 数据列表
+                    - title: 公告标题
+                    - noticetype: 公告类型
+                    - region_name: 地区名称
+                    - btype: 角色
+                    - bidwinList: 中标方列表
+                        - entid: 企业id
+                        - ENTNAME: 企业名称
+                    - bidWinList: 中标方列表
+                        - entid: 企业id
+                        - ENTNAME: 企业名称
+                    - agentList: 代理方列表
+                        - entid: 企业id
+                        - ENTNAME: 企业名称
         """
         params = {"key": key}
         if noticetype:
