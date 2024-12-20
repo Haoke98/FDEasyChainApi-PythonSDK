@@ -156,3 +156,30 @@ class EasyChainCli:
         """
         request_body = '{"key": "%s"}' % uscc
         return self.__post__('/company_impawn_query/', request_body)
+    
+    def company_bid_list_query(self, key: str, noticetype: str = None, btype: str = None, 
+                             gdate: str = None, page_index: int = 1, page_size: int = 20):
+        """
+        公司招投标信息查询
+        :param key: 统一社会信用代码/企业完整名称
+        :param noticetype: 公告类型，可选
+        :param btype: 角色，可选
+        :param gdate: 公告年份，如2021，可选
+        :param page_index: 页码索引，默认1
+        :param page_size: 每页大小，默认20
+        :return: 招投标信息列表
+        """
+        params = {"key": key}
+        if noticetype:
+            params["noticetype"] = noticetype
+        if btype:
+            params["btype"] = btype
+        if gdate:
+            params["gdate"] = gdate
+        params["page_index"] = page_index
+        params["page_size"] = page_size
+        
+        request_body = json.dumps(params)
+        return self.__post__('/company_bid_list_query/', request_body)
+    
+    
