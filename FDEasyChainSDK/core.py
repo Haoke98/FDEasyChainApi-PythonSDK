@@ -85,10 +85,8 @@ class EasyChainCli:
             print("(调试信息) RequestBody:", request_body)
         # 标准化请求体，确保相同参数生成相同的缓存键
         try:
-            # 解析JSON字符串为字典
-            body_dict = json.loads(request_body)
             # 将字典按键排序后重新序列化为JSON字符串，确保顺序一致性
-            normalized_body = json.dumps(body_dict, sort_keys=True)
+            normalized_body = json.dumps(request_body, sort_keys=True)
             # 生成缓存键
             cache_key = f"{api_path}:{normalized_body}"
         except json.JSONDecodeError:
@@ -194,3 +192,29 @@ class EasyChainCli:
 
         request_body = json.dumps(params)
         return self.__post__('/company_bid_list_query/', request_body)
+
+    def company_news_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业新闻舆情查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业新闻舆情数据列表，包含以下字段：
+                - total: 返回总数
+                - datalist: 数据列表
+                    - author: 作者/来源平台
+                    - title: 标题
+                    - url: 来源URL
+                    - event_time: 事件时间
+                    - category: 新闻分类
+                    - impact: 舆情倾向
+                    - keywords: 文章关键词
+                    - content: 新闻正文
+                    - ENTNAME: 主体名称
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_news_query/', request_body)
