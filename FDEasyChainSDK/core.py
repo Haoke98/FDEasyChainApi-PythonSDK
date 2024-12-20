@@ -97,7 +97,7 @@ class EasyChainCli:
         cached_result = self._cache.get(cache_key)
         if cached_result is not None:
             if self.debug:
-                print(f"(调试信息) Response(缓��):", cached_result)
+                print(f"(调试信息) Response(缓存):", cached_result)
             return cached_result
 
         timestamp = generate_timestamp()
@@ -227,7 +227,7 @@ class EasyChainCli:
         :param page_size: 页面大小，默认20
         :return: 企业上榜榜单数据，包含以下字段：
                 - total: 返回总数
-                - datalist: 数据列表
+                - datalist: 数据���表
                     - bangdan_name: 榜单名称
                     - bangdan_type: 榜单类型
                     - url: 来源url
@@ -292,7 +292,7 @@ class EasyChainCli:
     def company_vc_inv_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
         企业融资信息查询
-        :param key: 关键词(企业id/企业完���名称/社会统一信用代码)
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
         :param page_index: 页码索引，默认1
         :param page_size: 页面大小，默认20
         :return: 企业融资数据，包含以下字段：
@@ -320,7 +320,7 @@ class EasyChainCli:
         :param page_index: 页码索引，默认1
         :param page_size: 页面大小，默认20
         :return: 企业认证认可数据，包含以下字段：
-                - total: 返回总数
+                - total: 返回总���
                 - datalist: 数据列表
                     - cert_project: 认证项目
                     - cert_type: 证书类型
@@ -351,7 +351,7 @@ class EasyChainCli:
                     - LICSCOPE: 许可范围
                     - LICNAME: 许可文件名称
                     - LICNO: 许可文件编号
-                    - VALFROM: 有效期自
+                    - VALFROM: 有效���自
                     - VALTO: 有效期至
         """
         request_body = {
@@ -480,7 +480,7 @@ class EasyChainCli:
     def company_case_abnormity_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
         企业经营异常查询
-        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param key: ���键词(企业id/企业完整名称/社会统一信用代码)
         :param page_index: 页码索引，默认1
         :param page_size: 页面大小，默认20
         :return: 企业经营异常数据，包含以下字段：
@@ -626,3 +626,51 @@ class EasyChainCli:
             "page_size": page_size
         }
         return self.__post__('/company_liquidation_query/', request_body)
+
+    def company_tax_arrears_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业欠税信息查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业欠税信息数据，包含以下字段：
+                - total: 返回总数
+                - datalist: 数据列表
+                    - ENTNAME: 纳税人名称
+                    - camount: 本期新欠金额
+                    - debt: 总欠税额
+                    - pubtime: 发布日期
+                    - tax_org: 所属税务机关
+                    - taxcate: 纳税人国税/地税
+                    - taxtype: 欠税税种
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_tax_arrears_query/', request_body)
+
+    def company_case_ywfwt_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业严重违法查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业严重违法数据，包含以下字段：
+                - total: 返回总数
+                - datalist: 数据列表
+                    - ENTNAME: 企业名称
+                    - indate: 列入日期
+                    - inorg: 列入决定机关
+                    - inreason: 列入原因
+                    - outdate: 列出日期
+                    - outorg: 列出决定机关
+                    - outreason: 列出原因
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_case_ywfwt_query/', request_body)
