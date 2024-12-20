@@ -97,7 +97,7 @@ class EasyChainCli:
         cached_result = self._cache.get(cache_key)
         if cached_result is not None:
             if self.debug:
-                print(f"(调试信息) Response(缓存):", cached_result)
+                print(f"(调试信息) Response(缓��):", cached_result)
             return cached_result
 
         timestamp = generate_timestamp()
@@ -197,7 +197,7 @@ class EasyChainCli:
         """
         企业新闻舆情查询
         :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
-        :param page_index: 页码索引，默认1
+        :param page_index: 页码索引，��认1
         :param page_size: 页面大小，默认20
         :return: 企业新闻舆情数据列表，包含以下字段：
                 - total: 返回总数
@@ -218,3 +218,26 @@ class EasyChainCli:
             "page_size": page_size
         }
         return self.__post__('/company_news_query/', request_body)
+
+    def company_fc_thirdtop_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业上榜榜单查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业上榜榜单数据，包含以下字段：
+                - total: 返回总数
+                - datalist: 数据列表
+                    - bangdan_name: 榜单名称
+                    - bangdan_type: 榜单类型
+                    - url: 来源url
+                    - ENTNAME: 企业名称
+                    - ranking: 排名(0表示榜单中企业排名不分先后)
+                    - pdate: 发布日期
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_fc_thirdtop_query/', request_body)
