@@ -97,7 +97,7 @@ class EasyChainCli:
         cached_result = self._cache.get(cache_key)
         if cached_result is not None:
             if self.debug:
-                print(f"(调试信息) Response(缓存):", cached_result)
+                print(f"(调试信息) Response(缓��):", cached_result)
             return cached_result
 
         timestamp = generate_timestamp()
@@ -196,7 +196,7 @@ class EasyChainCli:
     def company_news_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
         企业新闻舆情查询
-        :param key: 关键词(企��id/企业完整名称/社会统一信用代码)
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
         :param page_index: 页码索引，默认1
         :param page_size: 页面大小，默认20
         :return: 企业新闻舆情数据列表，包含以下字段：
@@ -265,3 +265,50 @@ class EasyChainCli:
             "page_size": page_size
         }
         return self.__post__('/company_billboard_golory_query/', request_body)
+
+    def company_most_scitech_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业科技成果查询
+        :param key: 关键词(企业id/企业完整名称)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业科技成果数据，包含以下字段：
+                - total: 返回总数
+                - datalist: 数据列表
+                    - QRYENTNAME: 企业名称
+                    - desno: 登记号
+                    - ENTNAME: 第一完成单位
+                    - names: 成果完成人
+                    - pname: 成果名称
+                    - year: 年份
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_most_scitech_query/', request_body)
+
+    def company_vc_inv_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业融资信息查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业融资数据，包含以下字段：
+                - total: 返回总数
+                - datalist: 数据列表
+                    - ENTNAME: 融资公司全称
+                    - investdate: 投资日期
+                    - invse_similar_money_name: 投资的近似金额名称
+                    - invse_detail_money: 投资的详细金额
+                    - invse_guess_particulars: 估值明细
+                    - invse_round_name: 投资的轮次名称
+                    - org_name: 机构名称
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_vc_inv_query/', request_body)
