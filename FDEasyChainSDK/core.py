@@ -97,7 +97,7 @@ class EasyChainCli:
         cached_result = self._cache.get(cache_key)
         if cached_result is not None:
             if self.debug:
-                print(f"(调试信息) Response(缓��):", cached_result)
+                print(f"(调试信息) Response(缓存):", cached_result)
             return cached_result
 
         timestamp = generate_timestamp()
@@ -196,8 +196,8 @@ class EasyChainCli:
     def company_news_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
         企业新闻舆情查询
-        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
-        :param page_index: 页码索引，��认1
+        :param key: 关键词(企��id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
         :param page_size: 页面大小，默认20
         :return: 企业新闻舆情数据列表，包含以下字段：
                 - total: 返回总数
@@ -241,3 +241,27 @@ class EasyChainCli:
             "page_size": page_size
         }
         return self.__post__('/company_fc_thirdtop_query/', request_body)
+
+    def company_billboard_golory_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业荣誉资质查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业荣誉资质数据，包含以下字段：
+                - total: 返回总数
+                - datalist: 数据列表
+                    - datefrom: 有效期起
+                    - dateto: 有效期至
+                    - ENTNAME: 企业名称
+                    - golory_name: 荣誉名称
+                    - pdate: 发布日期
+                    - plevel: 荣誉级别
+                    - status: 1有效3已期未知
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_billboard_golory_query/', request_body)
