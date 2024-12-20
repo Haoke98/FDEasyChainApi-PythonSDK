@@ -576,3 +576,305 @@ if __name__ == '__main__':
                         print(f"Bulk update completed successfully. Updated {success_count} documents.")
                 except Exception as e:
                     print(f"Exception while syncing investments: {e}")
+
+        # 企业认证认可信息同步
+        resp_data = ddwCli.company_cnca5_query(firm_uncid)
+        if resp_data and 'CNCA5' in resp_data:
+            cert_data = resp_data['CNCA5']
+            cert_total = cert_data.get('total', 0)
+            print("\t\t", "认证认可信息: ", cert_total)
+            
+            if cert_total > 0:
+                cert_list = cert_data.get('datalist', [])
+                bulk_actions = []
+                
+                for cert_item in cert_list:
+                    cert_info = {
+                        "certProject": cert_item.get("cert_project"),    # 认证项目
+                        "certType": cert_item.get("cert_type"),         # 证书类型
+                        "awardDate": cert_item.get("award_date"),       # 颁证日期
+                        "expireDate": cert_item.get("expire_date"),     # 证书到期日期
+                        "certNum": cert_item.get("cert_num"),           # 证书编号
+                        "orgNum": cert_item.get("org_num"),             # 机构批准号
+                        "orgName": cert_item.get("org_name"),           # 机构名称
+                        "certStatus": cert_item.get("cert_status")      # 证书状态
+                    }
+                    
+                    action = {
+                        "_op_type": "update",
+                        "_index": INDEX,
+                        "_id": firm_uncid,
+                        "script": {
+                            "source": '''
+                            if (ctx._source.certificationAccreditationData == null) {
+                                ctx._source.certificationAccreditationData = [:];
+                            }
+                            if (ctx._source.certificationAccreditationData.dataList == null) {
+                                ctx._source.certificationAccreditationData.dataList = [];
+                            }
+                            ctx._source.certificationAccreditationData.dataList.add(params.certInfo);
+                            ctx._source.certificationAccreditationData.totalNum = ctx._source.certificationAccreditationData.dataList.length;
+                            ''',
+                            "params": {
+                                "certInfo": cert_info
+                            }
+                        }
+                    }
+                    bulk_actions.append(action)
+                
+                try:
+                    success_count, errors = helpers.bulk(esCli, bulk_actions, raise_on_error=False)
+                    if errors:
+                        for j, err in enumerate(errors):
+                            updateBox = err['update']
+                            errorBox = updateBox['error']
+                            errType = errorBox['type']
+                            if errType == 'document_missing_exception':
+                                raise Exception(errorBox)
+                            else:
+                                print(f"Error.{j}: ", errorBox)
+                                raise Exception(errorBox)
+                    else:
+                        print(f"Bulk update completed successfully. Updated {success_count} documents.")
+                except Exception as e:
+                    print(f"Exception while syncing certifications: {e}")
+
+        # 企业电信许可证同步
+        resp_data = ddwCli.company_aggre_cert_query(firm_uncid)
+        if resp_data and 'TELECOM_LICENSE' in resp_data:
+            telecom_data = resp_data['TELECOM_LICENSE']
+            telecom_total = telecom_data.get('total', 0)
+            print("\t\t", "电信许可证: ", telecom_total)
+            
+            if telecom_total > 0:
+                telecom_list = telecom_data.get('datalist', [])
+                bulk_actions = []
+                
+                for telecom_item in telecom_list:
+                    telecom_info = {
+                        "entName": telecom_item.get("ENTNAME"),         # 企业名称
+                        "licenseScope": telecom_item.get("LICSCOPE"),   # 许可范围
+                        "licenseName": telecom_item.get("LICNAME"),     # 许可文件名称
+                        "licenseNo": telecom_item.get("LICNO"),         # 许可文件编号
+                        "validFrom": telecom_item.get("VALFROM"),       # 有效期自
+                        "validTo": telecom_item.get("VALTO")           # 有效期至
+                    }
+                    
+                    action = {
+                        "_op_type": "update",
+                        "_index": INDEX,
+                        "_id": firm_uncid,
+                        "script": {
+                            "source": '''
+                            if (ctx._source.telecomLicenseData == null) {
+                                ctx._source.telecomLicenseData = [:];
+                            }
+                            if (ctx._source.telecomLicenseData.dataList == null) {
+                                ctx._source.telecomLicenseData.dataList = [];
+                            }
+                            ctx._source.telecomLicenseData.dataList.add(params.telecomInfo);
+                            ctx._source.telecomLicenseData.totalNum = ctx._source.telecomLicenseData.dataList.length;
+                            ''',
+                            "params": {
+                                "telecomInfo": telecom_info
+                            }
+                        }
+                    }
+                    bulk_actions.append(action)
+                
+                try:
+                    success_count, errors = helpers.bulk(esCli, bulk_actions, raise_on_error=False)
+                    if errors:
+                        for j, err in enumerate(errors):
+                            updateBox = err['update']
+                            errorBox = updateBox['error']
+                            errType = errorBox['type']
+                            if errType == 'document_missing_exception':
+                                raise Exception(errorBox)
+                            else:
+                                print(f"Error.{j}: ", errorBox)
+                                raise Exception(errorBox)
+                    else:
+                        print(f"Bulk update completed successfully. Updated {success_count} documents.")
+                except Exception as e:
+                    print(f"Exception while syncing telecom licenses: {e}")
+
+        # 企业土地转让信息同步
+        resp_data = ddwCli.company_mirland_transfer_query(firm_uncid)
+        if resp_data and 'LAND_TRANSFER' in resp_data:
+            land_data = resp_data['LAND_TRANSFER']
+            land_total = land_data.get('total', 0)
+            print("\t\t", "土地转让信息: ", land_total)
+            
+            if land_total > 0:
+                land_list = land_data.get('datalist', [])
+                bulk_actions = []
+                
+                for land_item in land_list:
+                    land_info = {
+                        "entName": land_item.get("ENTNAME"),           # 企业名称
+                        "address": land_item.get("address"),           # 宗地地址
+                        "city": land_item.get("city"),                # 行政区
+                        "originalOwner": land_item.get("ENTNAME_A"),   # 原土地使用权人
+                        "currentOwner": land_item.get("ENTNAME_B"),    # 现土地使用权人
+                        "transDate": land_item.get("trans_date")      # 成交时间
+                    }
+                    
+                    action = {
+                        "_op_type": "update",
+                        "_index": INDEX,
+                        "_id": firm_uncid,
+                        "script": {
+                            "source": '''
+                            if (ctx._source.landTransferData == null) {
+                                ctx._source.landTransferData = [:];
+                            }
+                            if (ctx._source.landTransferData.dataList == null) {
+                                ctx._source.landTransferData.dataList = [];
+                            }
+                            ctx._source.landTransferData.dataList.add(params.landInfo);
+                            ctx._source.landTransferData.totalNum = ctx._source.landTransferData.dataList.length;
+                            ''',
+                            "params": {
+                                "landInfo": land_info
+                            }
+                        }
+                    }
+                    bulk_actions.append(action)
+                
+                try:
+                    success_count, errors = helpers.bulk(esCli, bulk_actions, raise_on_error=False)
+                    if errors:
+                        for j, err in enumerate(errors):
+                            updateBox = err['update']
+                            errorBox = updateBox['error']
+                            errType = errorBox['type']
+                            if errType == 'document_missing_exception':
+                                raise Exception(errorBox)
+                            else:
+                                print(f"Error.{j}: ", errorBox)
+                                raise Exception(errorBox)
+                    else:
+                        print(f"Bulk update completed successfully. Updated {success_count} documents.")
+                except Exception as e:
+                    print(f"Exception while syncing land transfers: {e}")
+
+        # 企业招聘信息同步
+        resp_data = ddwCli.company_job_info_query(firm_uncid)
+        if resp_data and 'JOB_INFO' in resp_data:
+            job_data = resp_data['JOB_INFO']
+            job_total = job_data.get('total', 0)
+            print("\t\t", "招聘信息: ", job_total)
+            
+            if job_total > 0:
+                job_list = job_data.get('datalist', [])
+                bulk_actions = []
+                
+                for job_item in job_list:
+                    job_info = {
+                        "entName": job_item.get("ENTNAME"),           # 公司名称
+                        "title": job_item.get("title"),              # 招聘标题
+                        "publishDate": job_item.get("pdate"),        # 发布日期
+                        "salary": job_item.get("salary"),            # 薪资
+                        "province": job_item.get("province"),        # 工作省份
+                        "city": job_item.get("city"),               # 工作城市
+                        "experience": job_item.get("experience"),    # 工作年限
+                        "education": job_item.get("education")       # 学历
+                    }
+                    
+                    action = {
+                        "_op_type": "update",
+                        "_index": INDEX,
+                        "_id": firm_uncid,
+                        "script": {
+                            "source": '''
+                            if (ctx._source.jobInfoData == null) {
+                                ctx._source.jobInfoData = [:];
+                            }
+                            if (ctx._source.jobInfoData.dataList == null) {
+                                ctx._source.jobInfoData.dataList = [];
+                            }
+                            ctx._source.jobInfoData.dataList.add(params.jobInfo);
+                            ctx._source.jobInfoData.totalNum = ctx._source.jobInfoData.dataList.length;
+                            ''',
+                            "params": {
+                                "jobInfo": job_info
+                            }
+                        }
+                    }
+                    bulk_actions.append(action)
+                
+                try:
+                    success_count, errors = helpers.bulk(esCli, bulk_actions, raise_on_error=False)
+                    if errors:
+                        for j, err in enumerate(errors):
+                            updateBox = err['update']
+                            errorBox = updateBox['error']
+                            errType = errorBox['type']
+                            if errType == 'document_missing_exception':
+                                raise Exception(errorBox)
+                            else:
+                                print(f"Error.{j}: ", errorBox)
+                                raise Exception(errorBox)
+                    else:
+                        print(f"Bulk update completed successfully. Updated {success_count} documents.")
+                except Exception as e:
+                    print(f"Exception while syncing job info: {e}")
+
+        # 企业纳税信用等级同步
+        resp_data = ddwCli.company_tax_rating_query(firm_uncid)
+        if resp_data and 'TAX_RATING' in resp_data:
+            tax_data = resp_data['TAX_RATING']
+            tax_total = tax_data.get('total', 0)
+            print("\t\t", "纳税信用等级: ", tax_total)
+            
+            if tax_total > 0:
+                tax_list = tax_data.get('datalist', [])
+                bulk_actions = []
+                
+                for tax_item in tax_list:
+                    tax_info = {
+                        "taxId": tax_item.get("TAXID"),              # 纳税人识别号
+                        "entName": tax_item.get("ENTNAME"),          # 企业名称
+                        "year": tax_item.get("tyear"),               # 评定年份
+                        "rating": tax_item.get("rating")             # 评级
+                    }
+                    
+                    action = {
+                        "_op_type": "update",
+                        "_index": INDEX,
+                        "_id": firm_uncid,
+                        "script": {
+                            "source": '''
+                            if (ctx._source.taxRatingData == null) {
+                                ctx._source.taxRatingData = [:];
+                            }
+                            if (ctx._source.taxRatingData.dataList == null) {
+                                ctx._source.taxRatingData.dataList = [];
+                            }
+                            ctx._source.taxRatingData.dataList.add(params.taxInfo);
+                            ctx._source.taxRatingData.totalNum = ctx._source.taxRatingData.dataList.length;
+                            ''',
+                            "params": {
+                                "taxInfo": tax_info
+                            }
+                        }
+                    }
+                    bulk_actions.append(action)
+                
+                try:
+                    success_count, errors = helpers.bulk(esCli, bulk_actions, raise_on_error=False)
+                    if errors:
+                        for j, err in enumerate(errors):
+                            updateBox = err['update']
+                            errorBox = updateBox['error']
+                            errType = errorBox['type']
+                            if errType == 'document_missing_exception':
+                                raise Exception(errorBox)
+                            else:
+                                print(f"Error.{j}: ", errorBox)
+                                raise Exception(errorBox)
+                    else:
+                        print(f"Bulk update completed successfully. Updated {success_count} documents.")
+                except Exception as e:
+                    print(f"Exception while syncing tax ratings: {e}")
