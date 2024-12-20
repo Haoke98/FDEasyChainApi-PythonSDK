@@ -97,7 +97,7 @@ class EasyChainCli:
         cached_result = self._cache.get(cache_key)
         if cached_result is not None:
             if self.debug:
-                print(f"(调试信息) Response(缓存):", cached_result)
+                print(f"(调试信息) Response(缓��):", cached_result)
             return cached_result
 
         timestamp = generate_timestamp()
@@ -143,7 +143,16 @@ class EasyChainCli:
         :param key: 关键词(企业id/ 企业完整名称/社会统一信用代码)
         :param page_index: 页码索引，默认1
         :param page_size: 每页大小，默认20
-        :return: 当前企业的许可证信息列表
+        :return: 当前企业的许可证信息列表，包含以下字段：
+                - total: 返回总数
+                - datalist: 数据列表
+                    - ENTNAME: 企业名称
+                    - FILENO: 文件编号
+                    - FILENAME: 许可文件名称
+                    - VALFROM: 有效期自
+                    - VALTO: 有效期至
+                    - LICAUTH: 许可机关
+                    - LICCONTENT: 许可内容
         """
         request_body = {"key": key}
         if page_index != 1:
@@ -227,7 +236,7 @@ class EasyChainCli:
         :param page_size: 页面大小，默认20
         :return: 企业上榜榜单数据，包含以下字段：
                 - total: 返回总数
-                - datalist: 数据���表
+                - datalist: 数据列表
                     - bangdan_name: 榜单名称
                     - bangdan_type: 榜单类型
                     - url: 来源url
@@ -320,7 +329,7 @@ class EasyChainCli:
         :param page_index: 页码索引，默认1
         :param page_size: 页面大小，默认20
         :return: 企业认证认可数据，包含以下字段：
-                - total: 返回总���
+                - total: 返回总数
                 - datalist: 数据列表
                     - cert_project: 认证项目
                     - cert_type: 证书类型
@@ -351,7 +360,7 @@ class EasyChainCli:
                     - LICSCOPE: 许可范围
                     - LICNAME: 许可文件名称
                     - LICNO: 许可文件编号
-                    - VALFROM: 有效���自
+                    - VALFROM: 有效期自
                     - VALTO: 有效期至
         """
         request_body = {
@@ -480,7 +489,7 @@ class EasyChainCli:
     def company_case_abnormity_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
         企业经营异常查询
-        :param key: ���键词(企业id/企业完整名称/社会统一信用代码)
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
         :param page_index: 页码索引，默认1
         :param page_size: 页面大小，默认20
         :return: 企业经营异常数据，包含以下字段：
