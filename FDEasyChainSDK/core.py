@@ -97,7 +97,7 @@ class EasyChainCli:
         cached_result = self._cache.get(cache_key)
         if cached_result is not None:
             if self.debug:
-                print(f"(调试信息) Response(缓存):", cached_result)
+                print(f"(调试信息) Response(缓��):", cached_result)
             return cached_result
 
         timestamp = generate_timestamp()
@@ -196,7 +196,7 @@ class EasyChainCli:
     def company_news_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
         企业新闻舆情查询
-        :param key: 关键词(企业id/企业完整名称/社会统一信用代���)
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
         :param page_index: 页码索引，默认1
         :param page_size: 页面大小，默认20
         :return: 企业新闻舆情数据列表，包含以下字段：
@@ -292,7 +292,7 @@ class EasyChainCli:
     def company_vc_inv_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
         企业融资信息查询
-        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param key: 关键词(企业id/企业完���名称/社会统一信用代码)
         :param page_index: 页码索引，默认1
         :param page_size: 页面大小，默认20
         :return: 企业融资数据，包含以下字段：
@@ -429,3 +429,200 @@ class EasyChainCli:
             "page_size": page_size
         }
         return self.__post__('/company_tax_rating_query/', request_body)
+
+    def company_case_randomcheck_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业双随机抽查查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业双随机抽查数据，包含以下字段：
+                - total: 返回总数
+                - datalist: 数据列表
+                    - ENTNAME: 企业名称
+                    - CheckPlanNo: 计划编号
+                    - CheckTaskName: 任务名称
+                    - CheckBelongOrg: 抽查机关
+                    - CheckDoneDate: 完成日期
+                    - detal_list: 双随机抽查明细数据
+                    - CheckItem: 抽查事项
+                    - CheckResult: 抽查结果
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_case_randomcheck_query/', request_body)
+
+    def company_case_check_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业抽查检查查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业抽查检查数据，包含以下字段：
+                - total: 返回总数
+                - datalist: 数据列表
+                    - ENTNAME: 企业名称
+                    - CHECKDATE: 巡查日期
+                    - INSTYPE: 巡查类型
+                    - LOCALADM: 属地监管工商所
+                    - FOUNDPROB: 监管发现问题
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_case_check_query/', request_body)
+
+    def company_case_abnormity_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业经营异常查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业经营异常数据，包含以下字段：
+                - total: 返回总数
+                - datalist: 数据列表
+                    - ENTNAME: 企业名称
+                    - INDATE: 列入日期
+                    - INREASON: 列入原因
+                    - OUTDATE: 移出日期
+                    - OUTREASON: 移出原因
+                    - YC_REGORG: 列入/移出机关
+                    - YR_REGORG: 登记/核入机关
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_case_abnormity_query/', request_body)
+
+    def company_land_mort_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业土地抵押查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业土地抵押数据，包含以下字段：
+                - total: 返回总数
+                - datalist: 数据列表
+                    - ENTNAME: 土地抵押人名称
+                    - ENTNAME_h: 土地抵押权人
+                    - address: 宗地地址
+                    - sdate: 起始登记日期
+                    - edate: 结束登记日期
+                    - mamount: 抵押金额(万元)
+                    - moarea: 抵押面积(公顷)
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_land_mort_query/', request_body)
+
+    def company_mort_info_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业动产抵押查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业动产抵押数据，包含以下字段：
+                - total: 返回总数
+                - datalist: 数据列表
+                    - ENTNAME: 企业名称
+                    - MORTREGCNO: 登记编号
+                    - REGDATE: 登记日期/注销日期
+                    - REGORG: 登记机关
+                    - MORTYPE: 状态(如注销并注明注销原因等)
+                    - CANDATE: 注销时间
+                    - MORCAREA: 注销范围
+                    - PERSON: 抵押权人/出质人信息
+                    - BLICNO: 证件号
+                    - BLICTYPEPERSON: 证件类型
+                    - MORE: 质权人
+                    - CLAIM: 被担保债权信息
+                    - PEFPERETO: 履行期限
+                    - PRICLASSCAM: 被担保债权种类
+                    - WAMCON: 担保范围
+                    - GUAGES: 抵押物、质物、状况、所在地等信息
+                    - GUANAME: 抵押物名称
+                    - OWN: 所有权
+                    - ALTER: 抵押物变更信息
+                    - ALTDATE: 变更日期
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_mort_info_query/', request_body)
+
+    def company_tax_case_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业重大税收违法查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业重大税收违法数据，包含以下字段：
+                - total: 返回总数
+                - datalist: 数据列表
+                    - case_nature: 案件性质
+                    - ENTNAME: 纳税人名称
+                    - eval_date: 认定日期
+                    - puborg: 发布机关
+                    - remarks: 主要违法事实、相关法律依据及处理处罚情况说明
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_tax_case_query/', request_body)
+
+    def company_cancel_easy_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业简易注销查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业简易注销数据，包含以下字段：
+                - total: 返回总数
+                - datalist: 数据列表
+                    - ENTNAME: 企业名称
+                    - filepath: 承诺书路径
+                    - REGORG: 登记机关
+                    - UNICODE: 统一社会信用代码
+                    - date_from: 公告自
+                    - date_to: 公告至
+                    - result: 审核结果
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_cancel_easy_query/', request_body)
+
+    def company_liquidation_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业清算信息查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业清算信息数据，包含以下字段：
+                - total: 返回总数
+                - datalist: 数据列表
+                    - LICPRINCIPAL: 清算负责人
+                    - LIQMEN: 清算组成员
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_liquidation_query/', request_body)
