@@ -75,23 +75,23 @@ class EasyChainCli:
         # 初始化logger
         logger.init("EasyChainCli")
 
-    def __calculate_sign__(self, request_body, timestamp):
-        return calculate_sign(self.app_id, timestamp, self.app_secret, request_body)
+    def __calculate_sign__(self, payload:dict, timestamp):
+        return calculate_sign(self.app_id, timestamp, self.app_secret, payload)
 
-    def __post__(self, api_path, request_body):
+    def __post__(self, api_path, payload:dict):
         url = self.api_endpoint + api_path
         if self.debug:
             print("(调试信息) URL:", url)
-            print("(调试信息) RequestBody:", request_body)
+            print("(调试信息) RequestBody:", payload)
         # 标准化请求体，确保相同参数生成相同的缓存键
         try:
             # 将字典按键排序后重新序列化为JSON字符串，确保顺序一致性
-            normalized_body = json.dumps(request_body, sort_keys=True)
+            normalized_body = json.dumps(payload, sort_keys=True)
             # 生成缓存键
             cache_key = f"{api_path}:{normalized_body}"
         except json.JSONDecodeError:
             # 如果请求体不是有效的JSON，就使用原始请求体
-            cache_key = f"{api_path}:{request_body}"
+            cache_key = f"{api_path}:{payload}"
 
         # 检查缓存
         cached_result = self._cache.get(cache_key)
@@ -101,7 +101,7 @@ class EasyChainCli:
             return cached_result
 
         timestamp = generate_timestamp()
-        sign = self.__calculate_sign__(request_body, timestamp)
+        sign = self.__calculate_sign__(payload, timestamp)
         headers = {
             "APPID": self.app_id,
             "TIMESTAMP": timestamp,
@@ -114,7 +114,7 @@ class EasyChainCli:
         n = 1
         while True:
             try:
-                response = requests.post(url, headers=headers, data=request_body)
+                response = requests.post(url, headers=headers, data=payload)
                 break
             except requests.exceptions.ConnectionError as e:
                 delay = n * 1
@@ -224,7 +224,7 @@ class EasyChainCli:
         params["page_index"] = page_index
         params["page_size"] = page_size
 
-        request_body = json.dumps(params)
+        request_body = params
         return self.__post__('/company_bid_list_query/', request_body)
 
     def company_news_query(self, key: str, page_index: int = 1, page_size: int = 20):

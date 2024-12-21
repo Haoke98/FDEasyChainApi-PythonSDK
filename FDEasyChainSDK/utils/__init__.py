@@ -19,12 +19,9 @@ def debug(*args, **kwargs):
     print("(调试信息) ", *args)
 
 
-def calculate_sign(app_id, timestamp, secret, request_body):
-    payload = json.loads(request_body)
-
-    # 构建拼接字符串
-
-    concat_str = ''.join(payload.values())
+def calculate_sign(app_id, timestamp, secret, payload:dict):
+    # 构建拼接字符串 - 确保所有值都转换为字符串
+    concat_str = ''.join(str(value) for value in payload.values())
 
     # 计算签名
 
