@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from elasticsearch import Elasticsearch, helpers
 
 from FDEasyChainSDK import EasyChainCli
-from FDEasyChainSDK.exceptions import ServerError, create_exception
+from FDEasyChainSDK.exceptions import ServerError, create_exception, EasyChainException
 import requests
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -63,8 +63,8 @@ def sync_dimension_data(es_client, firm_uncid, api_method, dimension_config):
     """
     try:
         resp_data,isCachedReuslt = api_method(firm_uncid)
-    except ServerError as e:
-        logging.error(str(e))
+    except EasyChainException as e:
+        logging.error(f"企业{firm_uncid}, 获取[{dimension_config['display_name']}]信息失败:{e}")
         return
     if not resp_data or dimension_config['response_key'] not in resp_data:
         return
