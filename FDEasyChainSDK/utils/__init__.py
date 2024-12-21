@@ -20,11 +20,10 @@ def debug(*args, **kwargs):
 
 
 def calculate_sign(app_id, timestamp, secret, payload:dict):
+    values = [str(value) for value in payload.values()]
     # 构建拼接字符串 - 确保所有值都转换为字符串
-    concat_str = ''.join(str(value) for value in payload.values())
-
+    concat_str = ''.join(values)
     # 计算签名
-
     sign_string = app_id + timestamp + secret + concat_str
 
     md5_hash = hashlib.md5()

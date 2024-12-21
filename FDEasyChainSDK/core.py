@@ -102,13 +102,12 @@ class EasyChainCli:
         headers = {
             "APPID": self.app_id,
             "TIMESTAMP": timestamp,
-            "SIGN": sign,
-            "Content-Type": "application/json"
+            "SIGN": sign
         }
         n = 1
         while True:
             try:
-                response = requests.post(url, headers=headers, data=payload)
+                response = requests.post(url, headers=headers, json=payload)
                 break
             except requests.exceptions.ConnectionError as e:
                 delay = n * 1
