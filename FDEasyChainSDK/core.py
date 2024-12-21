@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Any
 import requests
 
+from FDEasyChainSDK.exceptions import create_exception
 from FDEasyChainSDK.utils import calculate_sign, generate_timestamp, logger
 
 
@@ -121,8 +122,6 @@ class EasyChainCli:
                 logging.error(e)
                 print(f"等待{delay}s 后再进行请求....")
                 time.sleep(delay)
-        if self.debug:
-            print(f"(调试信息) Response({response.status_code}):", response.text)
 
         if response.status_code == 200:
             resp_json = response.json()
@@ -133,9 +132,22 @@ class EasyChainCli:
                 self._cache.set(cache_key, result)
                 return result
             else:
-                raise Exception("业务异常")
+                msg = resp_json.get("msg")
+                # 使用 create_exception 创建异常，传入完整的请求和响应信息
+                raise create_exception(
+                    status_code=service_code,
+                    message=msg,
+                    request=response.request,  # requests 会在 response 中保存对应的 request
+                    response=response
+                )
         else:
-            raise Exception("请求异常")
+            # 处理 HTTP 错误状态码
+            raise create_exception(
+                status_code=response.status_code,
+                message=f"HTTP请求失败: {response.text}",
+                request=response.request,
+                response=response
+            )
 
     def company_certificate_query(self, key: str,page_index: int = 1, page_size: int = 20):
         """
@@ -165,7 +177,7 @@ class EasyChainCli:
     def company_impawn_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
         股权质押
-        :param key: 关键词(企业id/ 企业完整名称/社会统一信用代码)
+        :param key: 关键词(企业id/ ���业完整名称/社会统一信用代码)
         :param page_index: 页码索引，默认1
         :param page_size: 每页大小，默认20
         :return: 当前企业的股权质押信息列表
@@ -408,7 +420,7 @@ class EasyChainCli:
                     - address: 宗地地址
                     - city: 行政区
                     - ENTNAME_A: 原土地使用权人
-                    - ENTNAME_B: 现土地使用权人
+                    - ENTNAME_B: 现土地使用���人
                     - trans_date: 成交时间
         """
         request_body = {
@@ -630,7 +642,7 @@ class EasyChainCli:
                     - ENTNAME: 企业名称
                     - filepath: 承诺书路径
                     - REGORG: 登记机关
-                    - UNICODE: 统一社会信用代码
+                    - UNICODE: 统一社会信用���码
                     - date_from: 公告自
                     - date_to: 公告至
                     - result: 审核结果
@@ -664,7 +676,7 @@ class EasyChainCli:
     def company_tax_arrears_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
         企业欠税信息查询
-        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param key: 关键词(企业id/企业���整名称/社会统一信用代码)
         :param page_index: 页码索引，默认1
         :param page_size: 页面大小，默认20
         :return: 企业欠税信息数据，包含以下字段：
@@ -694,7 +706,7 @@ class EasyChainCli:
         :return: 企业严重违法数据，包含以下字段：
                 - total: 返回总数
                 - datalist: 数据列表
-                    - ENTNAME: 企业名称
+                    - ENTNAME: 企业���称
                     - indate: 列入日期
                     - inorg: 列入决定机关
                     - inreason: 列入原因

@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 from elasticsearch import Elasticsearch, helpers
 
 from FDEasyChainSDK import EasyChainCli
+from FDEasyChainSDK.exceptions import ServerError, create_exception
+import requests
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DIR_NAME = BASE_DIR.split(os.path.sep)[-1]
@@ -59,7 +61,11 @@ def sync_dimension_data(es_client, firm_uncid, api_method, dimension_config):
         - field_mapping: 字段映射关系
         - special_handlers: 特殊字段处理器(可选)
     """
-    resp_data = api_method(firm_uncid)
+    try:
+        resp_data = api_method(firm_uncid)
+    except ServerError as e:
+        logging.error(str(e))
+        return
     if not resp_data or dimension_config['response_key'] not in resp_data:
         return
         
@@ -208,7 +214,7 @@ DIMENSION_CONFIGS = {
             'entName': 'ENTNAME',           # 企业名称
             'licenseScope': 'LICSCOPE',     # 许可范围
             'licenseName': 'LICNAME',       # 许可文件名称
-            'licenseNo': 'LICNO',           # ���可文件编号
+            'licenseNo': 'LICNO',           # 可文件编号
             'validFrom': 'VALFROM',         # 有效期自
             'validTo': 'VALTO'              # 有效期至
         }
@@ -329,6 +335,26 @@ DIMENSION_CONFIGS = {
         }
     }
 }
+
+def call_api():
+    try:
+        # 发送请求
+        response = requests.get('https://api.example.com/some-endpoint')
+        
+        # response.request 包含了发送请求时的 request 对象
+        if response.status_code != 200:
+            raise create_exception(
+                status_code=response.status_code,
+                message=response.text,
+                request=response.request,  # 从response中获取request对象
+                response=response
+            )
+            
+        return response.json()
+        
+    except EasyChainException as e:
+        print(e)  # 这里会打印出包含request信息的错误详情
+        raise
 
 if __name__ == '__main__':
     ddwCli = EasyChainCli(debug=True)
