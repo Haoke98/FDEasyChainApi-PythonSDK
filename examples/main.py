@@ -66,7 +66,7 @@ def sync_dimension_data(es_client, firm_uncid, api_method, dimension_config):
     except EasyChainException as e:
         logging.error(f"企业{firm_uncid}, 获取[{dimension_config['display_name']}]信息失败:{e}")
         return
-    if not resp_data or dimension_config['response_key'] not in resp_data:
+    if  dimension_config['response_key'] not in resp_data:
         return
         
     data = resp_data[dimension_config['response_key']]

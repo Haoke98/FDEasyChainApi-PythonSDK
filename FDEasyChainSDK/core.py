@@ -119,7 +119,23 @@ class EasyChainCli:
             resp_json = response.json()
             service_code = resp_json.get("code")
             if service_code == 200:
-                result = resp_json.get("data", None)
+                if "data" not in resp_json:
+                    raise create_exception(
+                        status_code=500,
+                        message="响应中缺少 data 字段",
+                        request=response.request,
+                        response=response
+                    )
+                
+                result = resp_json.get("data")
+                if result is None:
+                    raise create_exception(
+                        status_code=500,
+                        message="响应中 data 字段为空",
+                        request=response.request,
+                        response=response
+                    )
+                
                 # 存入缓存
                 self._cache.set(cache_key, result)
                 logging.info(f"(200:Ok!) {url}")
@@ -170,7 +186,7 @@ class EasyChainCli:
     def company_impawn_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
         股权质押
-        :param key: 关键词(企业id/ ���业完整名称/社会统一信用代码)
+        :param key: 关键词(企业id/ 企业完整名称/社会统一信用代码)
         :param page_index: 页码索引，默认1
         :param page_size: 每页大小，默认20
         :return: 当前企业的股权质押信息列表
@@ -383,7 +399,7 @@ class EasyChainCli:
         :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
         :param page_index: 页码索引，默认1
         :param page_size: 页面大小，默认20
-        :return: 企业电信许可证数据，包含以下字段：
+        :return: 企业电信许可证���据，包含以下字段：
                 - total: 返回总数
                 - datalist: 数据列表
                     - ENTNAME: 企业名称
@@ -413,7 +429,7 @@ class EasyChainCli:
                     - address: 宗地地址
                     - city: 行政区
                     - ENTNAME_A: 原土地使用权人
-                    - ENTNAME_B: 现土地使用���人
+                    - ENTNAME_B: 现土地使用权人
                     - trans_date: 成交时间
         """
         request_body = {
@@ -543,7 +559,7 @@ class EasyChainCli:
     def company_land_mort_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
         企业土地抵押查询
-        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param key: 关键词(企业id/企业完整名称/社��统一信用代码)
         :param page_index: 页码索引，默认1
         :param page_size: 页面大小，默认20
         :return: 企业土地抵押数据，包含以下字段：
@@ -604,7 +620,7 @@ class EasyChainCli:
     def company_tax_case_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
         企业重大税收违法查询
-        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param key: ���键词(企业id/企业完整名称/社会统一信用代码)
         :param page_index: 页码索引，默认1
         :param page_size: 页面大小，默认20
         :return: 企业重大税收违法数据，包含以下字段：
@@ -635,7 +651,7 @@ class EasyChainCli:
                     - ENTNAME: 企业名称
                     - filepath: 承诺书路径
                     - REGORG: 登记机关
-                    - UNICODE: 统一社会信用���码
+                    - UNICODE: 统一社会信用码
                     - date_from: 公告自
                     - date_to: 公告至
                     - result: 审核结果
@@ -669,7 +685,7 @@ class EasyChainCli:
     def company_tax_arrears_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
         企业欠税信息查询
-        :param key: 关键词(企业id/企业���整名称/社会统一信用代码)
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
         :param page_index: 页码索引，默认1
         :param page_size: 页面大小，默认20
         :return: 企业欠税信息数据，包含以下字段：
@@ -699,7 +715,7 @@ class EasyChainCli:
         :return: 企业严重违法数据，包含以下字段：
                 - total: 返回总数
                 - datalist: 数据列表
-                    - ENTNAME: 企业���称
+                    - ENTNAME: 企业名称
                     - indate: 列入日期
                     - inorg: 列入决定机关
                     - inreason: 列入原因
