@@ -359,4 +359,5 @@ if __name__ == '__main__':
 
         # 遍历所有维度进行同步
         for dimension, config in DIMENSION_CONFIGS.items():
-            sync_dimension_data(esCli, firm_uncid, API_METHODS[dimension], config)
+            if dimension in ["share_pledge"]:
+                sync_dimension_data(esCli, firm_uncid, API_METHODS[dimension], config)
