@@ -187,20 +187,176 @@ DIMENSION_CONFIGS = {
             })
         ]
     },
-    # ... 其他维度的配置
+    'share_pledge': {
+        'response_key': 'IMPAWN',
+        'es_field': 'sharePledgeData',
+        'display_name': '股权质押',
+        'field_mapping': {
+            'pledgor': 'pledgor',           # 出质人
+            'relatedCompany': 'RelatedCompany', # 出质股权标的企业
+            'pledgee': 'IMPORG',            # 质权人
+            'amount': 'IMPAM',              # 质押金额
+            'execState': 'EXESTATE',        # 执行状态
+            'recDate': 'IMPONRECDATE'       # 质押备案日期
+        }
+    },
+    'telecom_license': {
+        'response_key': 'TELECOM_LICENSE',
+        'es_field': 'telecomLicenseData',
+        'display_name': '电信许可证',
+        'field_mapping': {
+            'entName': 'ENTNAME',           # 企业名称
+            'licenseScope': 'LICSCOPE',     # 许可范围
+            'licenseName': 'LICNAME',       # 许可文件名称
+            'licenseNo': 'LICNO',           # ���可文件编号
+            'validFrom': 'VALFROM',         # 有效期自
+            'validTo': 'VALTO'              # 有效期至
+        }
+    },
+    'land_transfer': {
+        'response_key': 'LAND_TRANSFER',
+        'es_field': 'landTransferData',
+        'display_name': '土地转让信息',
+        'field_mapping': {
+            'entName': 'ENTNAME',           # 企业名称
+            'address': 'address',           # 宗地地址
+            'city': 'city',                 # 行政区
+            'originalOwner': 'ENTNAME_A',   # 原土地使用权人
+            'currentOwner': 'ENTNAME_B',    # 现土地使用权人
+            'transDate': 'trans_date'       # 成交时间
+        }
+    },
+    'job_info': {
+        'response_key': 'JOB_INFO',
+        'es_field': 'jobInfoData',
+        'display_name': '招聘信息',
+        'field_mapping': {
+            'entName': 'ENTNAME',           # 公司名称
+            'title': 'title',               # 招聘标题
+            'publishDate': 'pdate',         # 发布日期
+            'salary': 'salary',             # 薪资
+            'province': 'province',         # 工作省份
+            'city': 'city',                 # 工作城市
+            'experience': 'experience',      # 工作年限
+            'education': 'education'         # 学历
+        }
+    },
+    'tax_rating': {
+        'response_key': 'TAX_RATING',
+        'es_field': 'taxRatingData',
+        'display_name': '纳税信用等级',
+        'field_mapping': {
+            'taxId': 'TAXID',               # 纳税人识别号
+            'entName': 'ENTNAME',           # 企业名称
+            'year': 'tyear',                # 评定年份
+            'rating': 'rating'              # 评级
+        }
+    },
+    'certification': {
+        'response_key': 'CNCA5',
+        'es_field': 'certificationAccreditationData',
+        'display_name': '认证认可信息',
+        'field_mapping': {
+            'certProject': 'cert_project',   # 认证项目
+            'certType': 'cert_type',         # 证书类型
+            'awardDate': 'award_date',       # 颁证日期
+            'expireDate': 'expire_date',     # 证书到期日期
+            'certNum': 'cert_num',           # 证书编号
+            'orgNum': 'org_num',             # 机构批准号
+            'orgName': 'org_name',           # 机构名称
+            'certStatus': 'cert_status'      # 证书状态
+        }
+    },
+    'news': {
+        'response_key': 'NEWS',
+        'es_field': 'newsFeelingsData',
+        'display_name': '新闻舆情',
+        'field_mapping': {
+            'author': 'author',              # 作者/来源平台
+            'title': 'title',                # 标题
+            'url': 'url',                    # 来源URL
+            'eventTime': 'event_time',       # 事件时间
+            'category': 'category',          # 新闻分类
+            'impact': 'impact',              # 舆情倾向
+            'keywords': 'keywords',          # 文章关键词
+            'content': 'content',            # 新闻正文
+            'entName': 'ENTNAME'             # 主体名称
+        }
+    },
+    'scitech': {
+        'response_key': 'SCITECH',
+        'es_field': 'scientificTechnologicalAchievementData',
+        'display_name': '科技成果信息',
+        'field_mapping': {
+            'queryEntName': 'QRYENTNAME',     # 企业名称
+            'registrationNo': 'desno',        # 登记号
+            'entName': 'ENTNAME',             # 第一完成单位
+            'achievementName': 'pname',       # 成果名称
+            'completors': 'names',            # 成果完成人
+            'year': 'year',                   # 年份
+            'achievementType': 'type',        # 成果类型
+            'registrationDate': 'regDate'     # 登记日期
+        }
+    },
+    'investment': {
+        'response_key': 'INVESTMENT',
+        'es_field': 'investmentData',
+        'display_name': '融资信息',
+        'field_mapping': {
+            'entName': 'ENTNAME',                      # 融资公司全称
+            'investDate': 'investdate',                # 投资日期
+            'investAmount': 'invse_similar_money_name', # 投资的近似金额名称
+            'investDetailAmount': 'invse_detail_money', # 投资的详细金额
+            'valuationDetail': 'invse_guess_particulars', # 估值明细
+            'investRound': 'invse_round_name',         # 投资的轮次名称
+            'orgName': 'org_name',                     # 机构名称
+            'investType': 'invest_type',               # 投资类型
+            'currency': 'currency',                    # 币种
+            'investorType': 'investor_type'            # 投资方类型
+        }
+    },
+    'ranking': {
+        'response_key': 'THIRDTOP',
+        'es_field': 'rankingListData',
+        'display_name': '上榜榜单信息',
+        'field_mapping': {
+            'listName': 'bangdan_name',      # 榜单名称
+            'listType': 'bangdan_type',      # 榜单类型
+            'url': 'url',                    # 来源url
+            'entName': 'ENTNAME',            # 企业名称
+            'ranking': 'ranking',            # 排名
+            'publishDate': 'pdate'           # 发布日期
+        }
+    }
 }
 
 if __name__ == '__main__':
     ddwCli = EasyChainCli(debug=True)
     firm_list = fetch_firm_list()
     total = len(firm_list)
+    
+    # 定义API方法映射
+    API_METHODS = {
+        'administrative_license': ddwCli.company_certificate_query,
+        'honor': ddwCli.company_billboard_golory_query,
+        'bid': ddwCli.company_bid_list_query,
+        'share_pledge': ddwCli.company_impawn_query,
+        'telecom_license': ddwCli.company_aggre_cert_query,
+        'land_transfer': ddwCli.company_mirland_transfer_query,
+        'job_info': ddwCli.company_job_info_query,
+        'tax_rating': ddwCli.company_tax_rating_query,
+        'certification': ddwCli.company_cnca5_query,
+        'news': ddwCli.company_news_query,
+        'scitech': ddwCli.company_most_scitech_query,
+        'investment': ddwCli.company_vc_inv_query,
+        'ranking': ddwCli.company_fc_thirdtop_query
+    }
+
     for i, firm in enumerate(firm_list, 1):
         progress = i / total * 100
         print(f"{progress:.2f}% ({i}/{total})", firm, end=':\n')
         db_id, chain_id, chain_name, chain_node_id, chain_node_name, firm_uncid, is_local_fir, has_over = firm
 
-        # 使用通用方法同步各个维度的数据
-        sync_dimension_data(esCli, firm_uncid, ddwCli.company_certificate_query, DIMENSION_CONFIGS['administrative_license'])
-        sync_dimension_data(esCli, firm_uncid, ddwCli.company_billboard_golory_query, DIMENSION_CONFIGS['honor'])
-        sync_dimension_data(esCli, firm_uncid, ddwCli.company_bid_list_query, DIMENSION_CONFIGS['bid'])
-        # ... 其他维度的同步调用
+        # 遍历所有维度进行同步
+        for dimension, config in DIMENSION_CONFIGS.items():
+            sync_dimension_data(esCli, firm_uncid, API_METHODS[dimension], config)
