@@ -76,14 +76,11 @@ class EasyChainCli:
         # 初始化logger
         logger.init("EasyChainCli")
 
-    def __calculate_sign__(self, payload:dict, timestamp):
+    def __calculate_sign__(self, payload: dict, timestamp):
         return calculate_sign(self.app_id, timestamp, self.app_secret, payload)
 
-    def __post__(self, api_path, payload:dict):
+    def __post__(self, api_path, payload: dict):
         url = self.api_endpoint + api_path
-        if self.debug:
-            print("(调试信息) URL:", url)
-            print("(调试信息) RequestBody:", payload)
         # 标准化请求体，确保相同参数生成相同的缓存键
         try:
             # 将字典按键排序后重新序列化为JSON字符串，确保顺序一致性
@@ -97,9 +94,8 @@ class EasyChainCli:
         # 检查缓存
         cached_result = self._cache.get(cache_key)
         if cached_result is not None:
-            if self.debug:
-                print(f"(调试信息) Response(缓存):", cached_result)
-            return cached_result
+            logging.info(f"(缓存:Ok!) {url}")
+            return cached_result, True
 
         timestamp = generate_timestamp()
         sign = self.__calculate_sign__(payload, timestamp)
@@ -109,9 +105,6 @@ class EasyChainCli:
             "SIGN": sign,
             "Content-Type": "application/json"
         }
-
-        if self.debug:
-            print("(调试信息) Headers:", headers)
         n = 1
         while True:
             try:
@@ -130,7 +123,8 @@ class EasyChainCli:
                 result = resp_json.get("data", None)
                 # 存入缓存
                 self._cache.set(cache_key, result)
-                return result
+                logging.info(f"(200:Ok!) {url}")
+                return result, False
             else:
                 msg = resp_json.get("msg")
                 # 使用 create_exception 创建异常，传入完整的请求和响应信息
@@ -149,7 +143,7 @@ class EasyChainCli:
                 response=response
             )
 
-    def company_certificate_query(self, key: str,page_index: int = 1, page_size: int = 20):
+    def company_certificate_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
         行政许可证
         :param key: 关键词(企业id/ 企业完整名称/社会统一信用代码)

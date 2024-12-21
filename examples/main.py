@@ -62,7 +62,7 @@ def sync_dimension_data(es_client, firm_uncid, api_method, dimension_config):
         - special_handlers: 特殊字段处理器(可选)
     """
     try:
-        resp_data = api_method(firm_uncid)
+        resp_data,isCachedReuslt = api_method(firm_uncid)
     except ServerError as e:
         logging.error(str(e))
         return
