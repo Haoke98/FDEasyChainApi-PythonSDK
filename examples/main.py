@@ -133,7 +133,7 @@ def sync_dimension_data(es_client, firm_uncid, api_method, dimension_config):
 # 定义维度配置
 DIMENSION_CONFIGS = {
     'administrative_license': {
-        'response_key': 'ADMINISTRATIVE_LICENSE',
+        'response_key': 'CERTIFY',
         'es_field': 'administrativeLicenseData',
         'display_name': '行政许可',
         'field_mapping': {
@@ -147,7 +147,7 @@ DIMENSION_CONFIGS = {
         }
     },
     'honor': {
-        'response_key': 'HONOR',
+        'response_key': 'GOLORY',
         'es_field': 'honorQualificationData',
         'display_name': '荣誉资质',
         'field_mapping': {
@@ -207,7 +207,7 @@ DIMENSION_CONFIGS = {
         }
     },
     'telecom_license': {
-        'response_key': 'TELECOM_LICENSE',
+        'response_key': 'AGGRECERT',
         'es_field': 'telecomLicenseData',
         'display_name': '电信许可证',
         'field_mapping': {
@@ -220,7 +220,7 @@ DIMENSION_CONFIGS = {
         }
     },
     'land_transfer': {
-        'response_key': 'LAND_TRANSFER',
+        'response_key': 'LANDTRANSFER',
         'es_field': 'landTransferData',
         'display_name': '土地转让信息',
         'field_mapping': {
@@ -233,7 +233,7 @@ DIMENSION_CONFIGS = {
         }
     },
     'job_info': {
-        'response_key': 'JOB_INFO',
+        'response_key': 'JOBINFO',
         'es_field': 'jobInfoData',
         'display_name': '招聘信息',
         'field_mapping': {
@@ -248,7 +248,7 @@ DIMENSION_CONFIGS = {
         }
     },
     'tax_rating': {
-        'response_key': 'TAX_RATING',
+        'response_key': 'TAXRATING',
         'es_field': 'taxRatingData',
         'display_name': '纳税信用等级',
         'field_mapping': {
@@ -259,7 +259,7 @@ DIMENSION_CONFIGS = {
         }
     },
     'certification': {
-        'response_key': 'CNCA5',
+        'response_key': 'CNCA_5',
         'es_field': 'certificationAccreditationData',
         'display_name': '认证认可信息',
         'field_mapping': {
