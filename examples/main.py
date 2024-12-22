@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from elasticsearch import Elasticsearch, helpers
 
 from FDEasyChainSDK import EasyChainCli
-from FDEasyChainSDK.exceptions import ServerError, create_exception, EasyChainException
+from FDEasyChainSDK.exceptions import ServerError, create_exception, EasyChainException, NotFoundError
 import requests
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -63,6 +63,9 @@ def sync_dimension_data(es_client, firm_uncid, api_method, dimension_config):
     """
     try:
         resp_data,isCachedReuslt = api_method(firm_uncid)
+    except NotFoundError as e:
+        logging.warning(f"企业{firm_uncid}, 获取[{dimension_config['display_name']}]查询无结果")
+        return
     except EasyChainException as e:
         logging.error(f"企业{firm_uncid}, 获取[{dimension_config['display_name']}]信息失败:{e}")
         return
@@ -305,7 +308,7 @@ DIMENSION_CONFIGS = {
         }
     },
     'investment': {
-        'response_key': 'INVESTMENT',
+        'response_key': 'VCINV',
         'es_field': 'investmentData',
         'display_name': '融资信息',
         'field_mapping': {
@@ -378,12 +381,15 @@ if __name__ == '__main__':
         'ranking': ddwCli.company_fc_thirdtop_query
     }
 
-    for i, firm in enumerate(firm_list, 1):
+    START_FROM =17902
+
+    for i in range(START_FROM,total):
+        firm = firm_list[i-1]
         progress = i / total * 100
         print(f"{progress:.2f}% ({i}/{total})", firm, end=':\n')
         db_id, chain_id, chain_name, chain_node_id, chain_node_name, firm_uncid, is_local_fir, has_over = firm
 
         # 遍历所有维度进行同步
         for dimension, config in DIMENSION_CONFIGS.items():
-            if dimension not in ["share_pledge"]:
+            if dimension not in ["share_pledge","land_transfer"]:
                 sync_dimension_data(esCli, firm_uncid, API_METHODS[dimension], config)

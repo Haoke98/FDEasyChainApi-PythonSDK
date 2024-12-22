@@ -121,7 +121,7 @@ class EasyChainCli:
             if service_code == 200:
                 if "data" not in resp_json:
                     raise create_exception(
-                        status_code=500,
+                        status_code=404,
                         message="响应中缺少 data 字段",
                         request=response.request,
                         response=response
@@ -130,7 +130,7 @@ class EasyChainCli:
                 result = resp_json.get("data")
                 if result is None:
                     raise create_exception(
-                        status_code=500,
+                        status_code=404,
                         message="响应中 data 字段为空",
                         request=response.request,
                         response=response
