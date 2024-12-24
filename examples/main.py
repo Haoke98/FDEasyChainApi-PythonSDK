@@ -2,12 +2,12 @@ import logging
 import os
 
 import mysql.connector
+import requests
 from dotenv import load_dotenv
 from elasticsearch import Elasticsearch, helpers
 
 from FDEasyChainSDK import EasyChainCli
-from FDEasyChainSDK.exceptions import ServerError, create_exception, EasyChainException, NotFoundError
-import requests
+from FDEasyChainSDK.exceptions import create_exception, EasyChainException, NotFoundError
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DIR_NAME = BASE_DIR.split(os.path.sep)[-1]
@@ -381,14 +381,17 @@ if __name__ == '__main__':
         'ranking': ddwCli.company_fc_thirdtop_query
     }
 
-    START_FROM =17902
+    START_FROM =67796
 
     for i in range(START_FROM,total):
         firm = firm_list[i-1]
         progress = i / total * 100
-        print(f"{progress:.2f}% ({i}/{total})", firm, end=':\n')
+        logging.info(f"{progress:.2f}% ({i}/{total}) {firm}")
         db_id, chain_id, chain_name, chain_node_id, chain_node_name, firm_uncid, is_local_fir, has_over = firm
-
+        # if firm_uncid == "91131025MA0FJ8LH98":
+        #     raise Exception("找到了奇点！！")
+        # else:
+        #     continue
         # 遍历所有维度进行同步
         for dimension, config in DIMENSION_CONFIGS.items():
             if dimension not in ["share_pledge","land_transfer"]:
