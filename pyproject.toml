@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=64.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "FDEasyChainSDK"
+version = "1.0.0"
+authors = [
+    { name="Sadam·Sadik", email="1903249375@qq.com" },
+]
+description = "五度易链SDK - 企业数据查询接口"
+readme = "README.md"
+license = { file="LICENSE" }
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "requests>=2.25.0",
+    "python-dotenv>=0.19.0",
+    "colorlog>=6.7.0",
+]
+
+[tool.setuptools]
+packages = { find = { exclude = ["examples*", "tests*"] } } 

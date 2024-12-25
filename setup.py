@@ -6,10 +6,11 @@ setup(
     author="Sadam·Sadik",
     author_email="1903249375@qq.com",
     description="五度易链SDK - 企业数据查询接口",
+    license="MIT",
+    packages=find_packages(),
     long_description=open("README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/yourusername/FDEasyChainSDK",
-    packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

@@ -16,7 +16,7 @@ from typing import Any
 import requests
 
 from FDEasyChainSDK.exceptions import create_exception
-from FDEasyChainSDK.utils import calculate_sign, generate_timestamp, logger
+from FDEasyChainSDK.utils import calculate_sign, generate_timestamp
 
 
 class APICache:
@@ -73,8 +73,6 @@ class EasyChainCli:
         self.api_endpoint = "https://gateway.qyxqk.com/wdyl/openapi"
         self.debug = debug
         self._cache = APICache(expire_seconds=cache_expire_seconds)
-        # 初始化logger
-        logger.init("EasyChainCli")
 
     def __calculate_sign__(self, payload: dict, timestamp):
         return calculate_sign(self.app_id, timestamp, self.app_secret, payload)
