@@ -397,7 +397,7 @@ class EasyChainCli:
         :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
         :param page_index: 页码索引，默认1
         :param page_size: 页面大小，默认20
-        :return: 企业电信许可证���据，包含以下字段：
+        :return: 企业电信许可证数据，包含以下字段：
                 - total: 返回总数
                 - datalist: 数据列表
                     - ENTNAME: 企业名称
@@ -557,7 +557,7 @@ class EasyChainCli:
     def company_land_mort_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
         企业土地抵押查询
-        :param key: 关键词(企业id/企业完整名称/社��统一信用代码)
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
         :param page_index: 页码索引，默认1
         :param page_size: 页面大小，默认20
         :return: 企业土地抵押数据，包含以下字段：
@@ -618,7 +618,7 @@ class EasyChainCli:
     def company_tax_case_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
         企业重大税收违法查询
-        :param key: ���键词(企业id/企业完整名称/社会统一信用代码)
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
         :param page_index: 页码索引，默认1
         :param page_size: 页面大小，默认20
         :return: 企业重大税收违法数据，包含以下字段：
@@ -727,3 +727,46 @@ class EasyChainCli:
             "page_size": page_size
         }
         return self.__post__('/company_case_ywfwt_query/', request_body)
+
+    def company_standard_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业国家标准信息查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业国家标准信息数据，包含以下字段：
+                - data: 返回的数据对象
+                    - BzCountry: 国家标准数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - standard_kinds: 标准属性
+                            - pdate: 发布日期
+                            - link: 全文链接
+                            - mid: 国家标准Id
+                            - abolish_date: 废止日期
+                            - DraftName: 起草单位
+                            - jurisdictional_unit: 归口单位
+                            - content: 全文
+                            - execute_unit: 执行单位
+                            - issued_date: 发布日期/实施日期
+                            - standard_status: 状态
+                            - CSIC: 中国标准分类号
+                            - standard_num: 标准号
+                            - Drafter: 起草人
+                            - id: Id
+                            - department: 主管部门
+                            - similar: 相近标准(计划)
+                            - standard_level: 标准级别
+                            - ISIC: 国际标准分类号
+                            - created: 输入时间
+                            - url: Url
+                            - standard_name: 标准名称
+                            - ENTNAME: 企业名称
+                            - updated: 更新时间
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_bz_country_query/', request_body)
