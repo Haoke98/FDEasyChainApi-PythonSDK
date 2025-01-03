@@ -61,7 +61,7 @@ print(result)
     - [ ] 十大流通股东
 - 标准信息
     - [x] 企业国家标准信息查询 (company_standard_query)
-    - [ ] 企业行业标准信息查询
+    - [x] 企业行业标准信息查询 (company_bz_industry_query)
 - 企业发展
     - [x] 认证认可 (company_cnca5_query)
     - [x] 新闻舆情 (company_news_query)

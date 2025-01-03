@@ -770,3 +770,49 @@ class EasyChainCli:
             "page_size": page_size
         }
         return self.__post__('/company_bz_country_query/', request_body)
+
+    def company_bz_industry_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业行业标准信息查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业行业标准信息数据，包含以下字段：
+                - data: 返回的数据对象
+                    - BzIndustry: 行业标准数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - mid: 行业标准id
+                            - standard_num: 标准号
+                            - standard_name: 标准名称
+                            - pdate: 发布日期
+                            - issued_date: 实施日期
+                            - standard_status: 状态
+                            - standard_level: 标准级别
+                            - standard_kinds: 标准属性
+                            - PR: 制修订
+                            - CSIC: 中国标准分类号
+                            - ISIC: 国际标准分类号
+                            - jurisdictional_unit: 技术归口
+                            - department: 批准发布部门
+                            - category: 标准类别
+                            - classification: 行业分类
+                            - area: 适用范围
+                            - bdate: 备案日期
+                            - abolish_date: 废止日期
+                            - bnum: 备案号
+                            - DraftsName: 起草单位
+                            - Drafter: 起草人
+                            - pdf_path: pdf存储路径
+                            - pdf_url: pdf url
+                            - url: Url
+                            - created: 输入时间
+                            - updated: 更新时间
+                            - ENTNAME: 企业名称
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_bz_industry_query/', request_body)
