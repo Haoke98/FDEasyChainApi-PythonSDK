@@ -4,7 +4,7 @@ setup(
     name="FDEasyChainSDK",
     version="1.0.0",
     author="Sadam·Sadik",
-    author_email="1903249375@qq.com",
+    author_email="Haoke98@outlook.com",
     description="五度易链SDK - 企业数据查询接口",
     license="MIT",
     packages=find_packages(),

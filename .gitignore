@@ -2,3 +2,5 @@
 .vscode
 __pycache__
 /FDEasyChainSDK.egg-info/
+/dist/
+/build/
