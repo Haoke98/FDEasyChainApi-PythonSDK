@@ -899,3 +899,28 @@ class EasyChainCli:
             "page_size": page_size
         }
         return self.__post__('/company_dishonest_query/', request_body)
+
+    def company_court_execute_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        被执行人查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 每页大小，默认20
+        :return: 被执行人信息数据，包含以下字段：
+                - data: 返回的数据对象
+                    - EXECUTE: 被执行人信息数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - FSS_CASENO: 案号
+                            - FSS_COURTNAME: 执行法院名称
+                            - FSS_LASJ: 立案时间
+                            - FSS_MONEY: 执行标的
+                            - FSS_NAME: 被执行人姓名/名称
+                            - FSS_REGNO: 组织机构代码
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_court_execute_query/', request_body)
