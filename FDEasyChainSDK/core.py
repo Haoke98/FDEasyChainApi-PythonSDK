@@ -924,3 +924,34 @@ class EasyChainCli:
             "page_size": page_size
         }
         return self.__post__('/company_court_execute_query/', request_body)
+
+    def company_software_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        软件著作权查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 每页大小，默认20
+        :return: 软件著作权数据，包含以下字段：
+                - data: 返回的数据对象
+                    - CopyrightSoftware: 软件著作权数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - ustatus: 软件状态
+                            - SHORTNAME: 软件简称
+                            - SNUM: 登记号
+                            - ANNDATE: 登记批准日期
+                            - REGDATE: 首次发表日期
+                            - VNUM: 版本号
+                            - author: 著作人
+                            - SNAME: 软件全称
+                            - ENTNAME: 企业名称
+                            - ANNTYPE: 分类号名称
+                            - updated: 最后更新时间
+                            - TYPENUM: 分类号编号
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_software_query/', request_body)
