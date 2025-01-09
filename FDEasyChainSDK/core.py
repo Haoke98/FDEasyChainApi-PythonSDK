@@ -862,3 +862,40 @@ class EasyChainCli:
         """
         request_body = {"key": key}
         return self.__post__('/company_basic_query/', request_body)
+
+    def company_dishonest_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        失信被执行人查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 每页大小，默认20
+        :return: 失信被执行人数据，包含以下字段：
+                - data: 返回的数据对象
+                    - LESSCREDIT: 失信被执行人信息数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - CASECODE: 案号
+                            - NAME: 被执行人名称
+                            - LTYPE: 类别
+                            - SEX: 性别
+                            - AGE: 年龄
+                            - faren: 法定代表人或负责人姓名
+                            - LASJ: 立案时间
+                            - PDATE: 发布时间
+                            - COURT: 执行法院
+                            - AREA: 省份
+                            - ZXFY: 执行依据文号
+                            - AUTHORG: 做出执行依据单位
+                            - DUTY: 生效法律文书确定的义务
+                            - DISRUPT: 失信被执行人行为具体情形
+                            - PERFORMANCE: 被执行人的履行情况
+                            - PERFORMED: 已履行部分
+                            - UNPERFORM: 未履行部分
+                            - EXITDATE: 退出日期
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_dishonest_query/', request_body)
