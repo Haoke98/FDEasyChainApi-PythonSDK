@@ -816,3 +816,49 @@ class EasyChainCli:
             "page_size": page_size
         }
         return self.__post__('/company_bz_industry_query/', request_body)
+
+    def company_basic_query(self, key: str):
+        """
+        企业基本信息查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :return: 企业基本信息数据，包含以下字段：
+                - data: 返回的数据对象
+                    - BASIC: 基本信息数据
+                        - parent: 上级产业id
+                        - code: 产业id
+                        - entid: 企业id
+                        - fulltitle: 完整行业代码的对应中文统名称
+                        - REGCAP_CN: 注册资本名称(GS)
+                        - UNISCID: 统一信用代码
+                        - FRNAME: 法人姓名
+                        - REGNO: 工商注册号
+                        - faq: 行业代码的INDUSTRYCO字段的门户解释
+                        - TAXID: 纳税人识别号
+                        - APPRDATE: 核准日期
+                        - region_name: 地区名
+                        - RECCAP: 实收资本
+                        - id: 无意义
+                        - OPFROM: 经营期限开始日期
+                        - codeNicList: 同行业代码去掉字母
+                        - DOM: 地址
+                        - scode: 同行业代码去掉字母
+                        - REGCAP: 注册资本
+                        - level: 行业代码对应层级
+                        - NACAOID: 组织机构代码
+                        - created: 数据库创建时间
+                        - REGCAPCUR: 注册资本单币种
+                        - region_id: 地区码
+                        - ENTTYPE: 公司类型
+                        - params: 参数
+                        - version: 码表版本
+                        - ENTTYPE_id: 企业类型id
+                        - nic_name: 行业名称
+                        - OPSCOPE: 经营范围
+                        - ESDATE: 成立日期
+                        - name: 行业名称
+                        - ENTNAME: 企业名称
+                        - updated: 数据库更新时间
+                        - INDUSTRYCO: 行业代码
+        """
+        request_body = {"key": key}
+        return self.__post__('/company_basic_query/', request_body)
