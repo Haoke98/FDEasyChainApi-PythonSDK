@@ -956,6 +956,165 @@ class EasyChainCli:
         }
         return self.__post__('/company_software_query/', request_body)
 
+    def company_patent_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        专利基本信息查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 每页大小，默认20
+        :return: 专利基本信息数据，包含以下字段：
+                - data: 返回列表
+                    - PATENTS: 专利数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - GNGKGGH: 公告号国内
+                            - GKGGH: 公告号国际
+                            - FASQ: 分案申请
+                            - GJGB: PCT国际公布
+                            - GJSQ: PCT国际申请
+                            - GSDM: 国家或地区
+                            - ZLDLJG: 专利代理机构
+                            - SQGGH: 授权公告号
+                            - SQGKRQ: 授权公开日期
+                            - ZQX: 主权项
+                            - JRGJRQ: 进入国家日期
+                            - FCFL: 范畴分类
+                            - FLH: 分类号
+                            - PTYPE: 专利分类
+                            - GKGGR: 公开日期
+                            - FMR: 发明/设计人
+                            - PID: 专利id
+                            - SQH: 申请号
+                            - DLR: 代理人
+                            - YZWX: 引证文献
+                            - PIC: 代表图片
+                            - PATNAME: 专利标题
+                            - YXQ : 优先权
+                            - SQR: 申请/专利权人
+                            - DZ: 申请人地址
+                            - ENTNAME: 申请企业
+                            - SQRQ: 申请日期
+                            - ZFLNAME: 主分类号
+                            - IPC: 专利行业分类全称
+                            - ZY: 摘要
+                            - updated: 更新时间
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_patent_query/', request_body)
+
+    def company_copyright_production_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        作品著作权查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 每页大小，默认20
+        :return: 作品著作权数据，包含以下字段：
+                - data: 返回列表
+                    - CopyrightProduction: 作品著作权数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - wnum: 登记号
+                            - wname: 作品名称
+                            - wtype: 作品类别
+                            - cdate: 创作完成日期
+                            - fdate: 首次发表日期
+                            - rdate: 登记日期
+                            - ENTNAME: 著作权人姓名/名称
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_copyright_production_query/', request_body)
+
+    def company_tminfo_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        商标基本信息查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 每页大小，默认20
+        :return: 商标基本信息数据，包含以下字段：
+                - data: 返回列表
+                    - TMINFO: 商标信息数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - mid: 商标ID
+                            - tnum: 注册号/申请号
+                            - tmcat: 商标分类
+                            - tname: 商标名称
+                            - application_date	: 申请日期
+                            - ENTNAME: 注册人中文名称
+                            - ENTNAME_E: 注册人外文名称
+                            - agency: 代理机构
+                            - tstyle: 商标类型
+                            - pstatus: 商标状态
+                            - pic_path: 图片oss地址
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_tminfo_query/', request_body)
+
+    def company_ipr_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        知识产权出质查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 每页大小，默认20
+        :return: 知识产权出质数据，包含以下字段：
+                - data: 返回列表
+                    - KNOWPOWER: 知识产权出质数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - IPRTYPE: 种类
+                            - IPRNAME: 名称
+                            - IPRNO: 知识产权登记证号
+                            - PUBDATE: 公示日期
+                            - IMPORG: 质权人名称
+                            - PLEDGOR: 出质人名称
+                            - REGFROM: 质权登记自
+                            - REGTO: 质权登记至
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_ipr_query/', request_body)
+
+    def company_icp_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        ICP网站备案查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 每页大小，默认20
+        :return: ICP网站备案数据，包含以下字段：
+                - data: 返回列表
+                    - ICPREG: ICP网站备案数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - mid: 唯一键
+                            - ENTNAME: 开办者名称
+                            - shdate: 审核/备案日期
+                            - lable: 备案类型
+                            - hostname: 网站域名
+                            - icpnum: 公安备案号
+                            - webname: 网站名称
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_icp_query/', request_body)
+
     def company_punish_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
         行政处罚查询
