@@ -1005,3 +1005,29 @@ class EasyChainCli:
             "page_size": page_size
         }
         return self.__post__('/company_patent_query/', request_body)
+
+    def company_copyright_production_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        作品著作权查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 每页大小，默认20
+        :return: 专利基本信息数据，包含以下字段：
+                - data: 返回列表
+                    - CopyrightProduction: 作品著作权数据
+                        - total: 返回总数
+                        - datalist: 返回列表
+                            - wnum: 登记号
+                            - wname: 作品名称
+                            - wtype: 作品类别
+                            - cdate: 创作完成日期
+                            - fdate: 首次发表日期
+                            - rdate: 登记日期
+                            - ENTNAME: 著作权人姓名/名称
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_copyright_production_query/', request_body)
