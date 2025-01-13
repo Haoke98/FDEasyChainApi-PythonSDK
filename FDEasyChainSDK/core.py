@@ -1147,3 +1147,30 @@ class EasyChainCli:
             "page_size": page_size
         }
         return self.__post__('/company_court_lian_query/', request_body)
+
+    def company_court_xgl_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        限制高消费查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 限制高消费数据，包含以下字段：
+                - data: 返回的数据对象
+                    - XGL: 限制高消数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - CASENO: 案号
+                            - causename: 案由
+                            - pname: 关联对象
+                            - sdate: 立案时间
+                            - pdate: 发布时间
+                            - limitobj: 限消令对象
+                            - petitioner: 申请人
+                            - entid_exe: 申请人（企业）id
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_court_xgl_query/', request_body)
