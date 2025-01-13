@@ -1103,7 +1103,7 @@ class EasyChainCli:
         :param page_size: 页面大小，默认20
         :return: 终本案件数据，包含以下字段：
                 - data: 返回的数据对象
-                    - COURT_ENDCASE	: 终本案件数据
+                    - COURT_ENDCASE: 终本案件数据
                         - total: 返回总数
                         - datalist: 数据列表
                             - CASENO: 案号
@@ -1120,3 +1120,30 @@ class EasyChainCli:
             "page_size": page_size
         }
         return self.__post__('/company_court_endcase_query/', request_body)
+
+    def company_court_lian_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        立案信息查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 立案信息数据，包含以下字段：
+                - data: 返回的数据对象
+                    - COURT_LIAN: 立案信息数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - causename: 案由
+                            - CASENO: 案号
+                            - adate: 立案日期
+                            - courtname: 法院
+                            - casestatus: 案件状态
+                            - defendant: 被告人/被告/被上诉人/被申请人
+                            - prosecutor: 公诉人/原告/上诉人/申请人
+                            - otherName: 其他
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_court_lian_query/', request_body)
