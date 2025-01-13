@@ -1068,3 +1068,29 @@ class EasyChainCli:
             "page_size": page_size
         }
         return self.__post__('/company_court_cpws_query/', request_body)
+
+    def company_court_ktgg_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        开庭公告查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 开庭公告数据，包含以下字段：
+                - data: 返回的数据对象
+                    - COURT_KTGG: 开庭公告数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - CASENO: 案号
+                            - causename: 案由
+                            - sdate: 开庭日期
+                            - courtname	: 法院名称
+                            - plaintiffName	: 原告
+                            - defendantName	: 被告
+                            - otherName	: 其他当事人
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_court_ktgg_query/', request_body)
