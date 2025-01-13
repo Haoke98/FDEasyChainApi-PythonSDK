@@ -1358,3 +1358,306 @@ class EasyChainCli:
             "page_size": page_size
         }
         return self.__post__('/company_bankruptcy_query/', request_body)
+
+    def company_stockholder_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        股东信息查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 股东信息数据，包含以下字段：
+                - data: 返回的数据对象
+                    - SHAREHOLDER: 股东信息数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - CONPROP: 出资比例
+                            - COUNTRY: 国家（地区）
+                            - BLICNO: 证照号码
+                            - SUBCONAM: 认缴出资金额
+                            - CONFORM: 出资方式
+                            - CONDATE: 出资日期
+                            - SHANAME: 股东名称
+                            - updated: 更新时间
+                            - BLICTYPE: 证照类型
+                            - INVTYPE: 投资人类型
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_stockholder_query/', request_body)
+
+    def company_management_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        高管信息查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 高管信息数据，包含以下字段：
+                - data: 返回的数据对象
+                    - PERSON: 高管信息数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - ISFRDB: 是否法人
+                            - POSITION: 职位
+                            - positionTotal: 企业主要人员数量
+                            - PERSONPIC: 高管头像
+                            - personid: 人物id
+                            - invTotal: 企业高管数量
+                            - updated: 更新时间
+                            - NAME: 姓名
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_management_query/', request_body)
+
+    def company_changeRecord_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        变更记录查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 变更记录数据，包含以下字段：
+                - data: 返回的数据对象
+                    - ALTER: 变更数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - ALTDATE: 变更日期
+                            - ALTAF: 变更后
+                            - ALTITEM: 变更事项
+                            - ALTBE: 变更前
+                            - updated: 更新时间
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_changeRecord_query/', request_body)
+
+    def company_investment_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业对外投资查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业对外投资数据，包含以下字段：
+                - data: 返回的数据对象
+                    - ENTINV: 企业对外投资数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - ENTSTATUS	: 企业状态
+                            - entid: 企业id
+                            - REGCAP: 注册资本
+                            - regInstitute: 登记机关名称(GS)
+                            - SUBCONAM: 认缴出资金额
+                            - REGCAPCUR: 币种
+                            - ENTTYPE: 企业类型
+                            - CONDATE: 出资日期
+                            - faren	: 法人
+                            - REGCAPCN: 注册资本名称(GS)
+                            - ESDATE: 成立日期
+                            - creditCode: 统一社会信用代码
+                            - province: 住所所在行政区划
+                            - REGNO: 工商注册号
+                            - ENTNAME: 企业名称
+                            - CONFORM: 出资方式
+                            - updated: 更新时间
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_investment_query/', request_body)
+
+    def company_branch_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        分支机构查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 分支机构数据，包含以下字段：
+                - data: 返回的数据对象
+                    - FILIATION: 分支机构数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - BRADDR: 企业地址
+                            - ESDATE: 成立日期
+                            - ENTSTATUS: 企业状态
+                            - entid: 企业id
+                            - CBUITEM: 一般经营项目
+                            - BRREGNO: 分支机构企业注册号
+                            - BRNAME: 分支机构名称
+                            - BRPRINCIPAL: 分支机构负责人
+                            - UNISCID	: 统一社会信用代码
+                            - updated: 更新时间
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_branch_query/', request_body)
+
+    def related_multi_new(self, related_args: str, tab: str, depth: 20):
+        """
+        企业关系链查询
+        :param related_args: 关系参数,"type" 中 "e" 表示企业类型，"p" 表示企业+人名类型；"type" 为 "p" 时,"key" 传参必须是 "eMBp0EeCkKE-林斌" 格式
+        :param tab: "A"：关联路径，"B"：关系追踪；默认为"A"
+        :param depth: 下钻层次，"tab"传参为"A"时该传参才生效，默认为"4"
+        :return: 企业关系链数据，包含以下字段：
+                - data: 返回的数据对象
+                    - edges: 企业关系链数据
+                        - relation: 关系说明
+                        - source: 源企业唯一标识
+                        - source_name: 源企业/源个人名称
+                        - target: 目标企业唯一标识
+                        - target_name: 目标企业/目标个人名称
+                        - type: "line"表示普通连接线，"best"表示最短路径连接线
+                    - nodes: 节点
+                        - id: 企业唯一标识
+                        - imgtype: "com"表示企业，"person"表示个人
+                        - name: 企业/个人名称
+                        - type: 企业或个人类型，"e"表示企业，"p"表示个人
+                    - table: 企业表单信息
+                        - conam: 企业投资出资金额
+                        - conprop: 企业投资出资比例
+                        - eid: 企业唯一标识
+                        - esdate: 企业成立时间
+                        - id: 该条数据唯一标识
+                        - lerepsign: 是否法人
+                        - name: 企业/个人名称
+                        - nicid: 行业分类名称
+                        - ntype: 企业或个人类型，"e"表示企业，"p"表示个人
+                        - position: 职务
+                        - regcap: 企业注册资金
+                        - regionid: 企业所在地区名称
+                        - roadid: 路径号
+                        - rowname: 路径详情文字说明；若是"企业"/"个人"文字说明为企业/个人名称；否则直接为文字说明，例："投资"
+                        - status: 企业状态
+        """
+        request_body = {
+            "related_args": related_args,
+            "tab": tab,
+            "depth": depth
+        }
+        return self.__post__('/related_multi_new/', request_body)
+
+    def company_ar_query(self, key: str):
+        """
+        企业年报查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :return: 企业年报数据，包含以下字段：
+                - data: 返回的数据对象
+                    - ARYEAR: 企业年报数据
+                        - total: 返回datalist总数 只返回1条
+                        - datalist: 基本信息表
+                        - ALTER: 股权变更表
+                        - WEBSITE: 网站信息表
+                        - CAPITAL: 出资信息表
+                        - GUAR: 对外担保信息表
+                        - ASSET: 资产信息表
+                        - SOCIAL: 社保信息表
+                        - datalist: 基本信息表
+                            - ANCHEDATE: 年报时间
+                            - ANCHEYEAR	: 年报年度
+                            - BUSST: 经营状态
+                            - DOM: 企业通信地址
+                            - EMAIL: 电子邮箱
+                            - EMPNUM: 从业人数
+                            - EMPNUMDIS: 从业人数是否公示（0否 1是）
+                            - ENTNAME: 企业名称
+                            - has_equity: 是否发生股东股权转让
+                            - has_extguarantee: 是否有对外提供担保信息
+                            - has_invest: 是否有投资信息或购买其他公司股权（0否 1是）
+                            - has_website: 是否有网站或网店
+                            - holdingSmsg: 控股类型
+                            - holdingSmsgDis: 控股类型是否公示（0否 1是）
+                            - MAINBUSIACT: 主营业务
+                            - parIns: 党组织类型
+                            - parIns_code: 党组织类型编码
+                            - POSTALCODE: 邮政编码
+                            - REGNO: 注册号
+                            - TEL: 企业联系电话
+                            - UNISCID: 统一社会信用代码
+                            - WOMEMPNUM: 女性从业人数
+                            - WOMEMPNUMDIS: 女性从业人数是否公示（0否 1是）
+                        - ALTER: 股权变更表
+                            - altdate: 股权变更日期
+                            - ancheyear: 年报年度
+                            - inv: 股东名称
+                            - transamaft: 转让后股权比例
+                            - transampr: 转让前股权比例
+                        - WEBSITE: 网站信息表
+                            - ancheyear: 年报年度
+                            - domain: 网站（网店）网址
+                            - websitname: 网络经营者拥有的网站或网店名称
+                            - webtype: 网站网店类型1网站2网店
+                        - CAPITAL: 出资信息表
+                            - acconam: 累计实缴额
+                            - accondate: 实缴出资日期
+                            - ancheyear: 年报年度
+                            - inv: 股东/发起人名称
+                            - subconam: 累计认缴额
+                            - subcondate: 认缴出资日期
+                        - GUAR: 对外担保信息表
+                            - ancheyear: 年报年度
+                            - gatype: 保证的方式1一般保证2连带保证3未约定
+                            - guaranperiod: 保证的期间1期限2未约定
+                            - more: 债权人
+                            - mortgagor: 债务人
+                            - pefperform: 履行债务的期限自
+                            - pefperto: 履行债务的期限至
+                            - priclasecam: 主债权数额
+                            - priclaseckind: 主债权种类1合同2其他
+                        - ASSET: 资产信息表
+                            - ancheyear: 年报年度
+                            - assgro: 资产总额
+                            - assgrodis: 资产总额是否公示（0否 1是）
+                            - liagro: 负债总额
+                            - liagrodis: 负债总额是否公示（0否 1是）
+                            - maibusinc: 主营业务收入
+                            - maibusincdis: 主营业务收入是否公示（0否 1是）
+                            - netinc: 净利润
+                            - netincdis: 净利润是否公示（0否 1是）
+                            - progro: 利润总额
+                            - progrodis: 利润总额是否公示（0否 1是）
+                            - ratgro: 纳税总额
+                            - ratgrodis: 纳税总额是否公示（0否 1是）
+                            - totequ: 所有者权益合计
+                            - totequdis: 所有者权益合计是否公示（0否 1是）
+                            - vendinc: 营业总收入
+                            - vendincdis: 营业总收入是否公示（0否 1是）
+                        - SOCIAL: 社保信息表
+                            - anchedate: 发布日期
+                            - ancheyear: 年报年份
+                            - so1: 城镇职工养老保险人数
+                            - so2: 失业保险人数
+                            - so3: 职工医疗保险人数
+                            - so4: 工伤保险人数
+                            - so5: 生育保险人数
+                            - totalPaymentSo1: 城镇职工养老保险实缴基数
+                            - totalPaymentSo2: 失业保险实缴基数
+                            - totalPaymentSo3: 职工医疗保险实缴基数
+                            - totalPaymentSo4: 工伤保险实缴基数
+                            - totalPaymentSo5: 生育保险实缴基数
+                            - totalWagesSo1: 城镇职工养老保险缴费基数
+                            - totalWagesSo2: 失业保险缴费基数
+                            - totalWagesSo3: 职工医疗保险缴费基数
+                            - totalWagesSo4: 工伤保险缴费基数
+                            - totalWagesSo5: 生育保险缴费基数
+                            - unPaidSocialInsSo1: 城镇职工养老保险累计欠缴
+                            - unPaidSocialInsSo2: 失业保险累计欠缴
+                            - unPaidSocialInsSo3: 职工医疗保险累计欠缴
+                            - unPaidSocialInsSo4: 工伤保险累计欠缴
+                            - unPaidSocialInsSo5: 生育保险累计欠缴
+        """
+        request_body = {
+            "key": key
+        }
+        return self.__post__('/company_ar_query/', request_body)
