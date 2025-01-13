@@ -1174,3 +1174,28 @@ class EasyChainCli:
             "page_size": page_size
         }
         return self.__post__('/company_court_xgl_query/', request_body)
+
+    def company_bankruptcy_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        破产重整查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 破产重整数据，包含以下字段：
+                - data: 返回的数据对象
+                    - BANKRUPTCY: 企业破产重整数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - CASENO: 案号
+                            - pdate: 公开日期
+                            - Applicant: 申请人/上诉人
+                            - Respondent: 被申请人/被上诉人
+                            - pname: 企业名称
+                            - title: 公告标题
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_bankruptcy_query/', request_body)
