@@ -1083,10 +1083,10 @@ class EasyChainCli:
                             - CASENO: 案号
                             - causename: 案由
                             - sdate: 开庭日期
-                            - courtname	: 法院名称
-                            - plaintiffName	: 原告
-                            - defendantName	: 被告
-                            - otherName	: 其他当事人
+                            - courtname: 法院名称
+                            - plaintiffName: 原告
+                            - defendantName: 被告
+                            - otherName: 其他当事人
         """
         request_body = {
             "key": key,
@@ -1094,3 +1094,29 @@ class EasyChainCli:
             "page_size": page_size
         }
         return self.__post__('/company_court_ktgg_query/', request_body)
+
+    def company_court_endcase_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        终本案件查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 终本案件数据，包含以下字段：
+                - data: 返回的数据对象
+                    - COURT_ENDCASE	: 终本案件数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - CASENO: 案号
+                            - courtname: 执行法院名称
+                            - sdate: 终本时间
+                            - bdate: 立案时间
+                            - execMoney: 执行标的
+                            - unnexeMoney: 未履行金额
+                            - pname: 当事人
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_court_endcase_query/', request_body)
