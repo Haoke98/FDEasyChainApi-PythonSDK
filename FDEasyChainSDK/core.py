@@ -1038,3 +1038,33 @@ class EasyChainCli:
             "page_size": page_size
         }
         return self.__post__('/company_justice_query/', request_body)
+
+    def company_court_cpws_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        裁判文书查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 每页大小，默认20
+        :return: 裁判文书数据，包含以下字段：
+                - data: 返回的数据对象
+                    - COURT_CPWS: 裁判文书数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - mid: 文书id
+                            - title: 标题
+                            - causename: 案由名称
+                            - CASENO: 案号
+                            - pname: 主体名称
+                            - ptname: 主体类型名称
+                            - judgeresult: 判决结果
+                            - pdate: 裁定日期
+                            - sdate: 发布日期
+                            - casetype: 案件类型
+                            - wenshutype: 文书类型
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_court_cpws_query/', request_body)
