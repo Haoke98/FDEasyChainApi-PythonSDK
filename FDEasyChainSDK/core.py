@@ -955,3 +955,38 @@ class EasyChainCli:
             "page_size": page_size
         }
         return self.__post__('/company_software_query/', request_body)
+
+    def company_punish_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        行政处罚查询
+        :param key: 关键词(企业id/ 企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 每页大小，默认20
+        :return: 行政处罚数据，包含以下字段：
+                - data: 返回的数据对象
+                    - PunishInfo: 大数据行政处罚数据
+                        - total: 返回总数
+                        - datalist:数据列表
+                            - PENEXEST: 处罚执行情况
+                            - PENAM: 处罚金额
+                            - PENBASIS: 处罚依据
+                            - CASETIME: 案发时间
+                            - CASERESULT: 案件结果
+                            - ILLEGFACT: 主要违法事实
+                            - PENRESULT: 处罚结果
+                            - PENDECNO: 处罚决定文书
+                            - CASEVAL: 案值
+                            - PENDECISSDATE: 处罚决定书签发日期
+                            - CASETYPE: 文书类型（案件类型）
+                            - CASEREASON: 案由
+                            - EXESORT: 执行类别
+                            - PENAUTH: 处罚机关
+                            - UNEXECMONEY: 未执行金额
+                            - updated: 更新时间
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_punish_query/', request_body)
