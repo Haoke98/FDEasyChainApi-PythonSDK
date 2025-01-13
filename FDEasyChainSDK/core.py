@@ -955,3 +955,53 @@ class EasyChainCli:
             "page_size": page_size
         }
         return self.__post__('/company_software_query/', request_body)
+
+    def company_patent_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        专利基本信息查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 每页大小，默认20
+        :return: 专利基本信息数据，包含以下字段：
+                - data: 返回列表
+                    - PATENTS: 专利数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - GNGKGGH: 公告号国内
+                            - GKGGH: 公告号国际
+                            - FASQ: 分案申请
+                            - GJGB: PCT国际公布
+                            - GJSQ: PCT国际申请
+                            - GSDM: 国家或地区
+                            - ZLDLJG: 专利代理机构
+                            - SQGGH: 授权公告号
+                            - SQGKRQ: 授权公开日期
+                            - ZQX: 主权项
+                            - JRGJRQ: 进入国家日期
+                            - FCFL: 范畴分类
+                            - FLH: 分类号
+                            - PTYPE: 专利分类
+                            - GKGGR: 公开日期
+                            - FMR: 发明/设计人
+                            - PID: 专利id
+                            - SQH: 申请号
+                            - DLR: 代理人
+                            - YZWX: 引证文献
+                            - PIC: 代表图片
+                            - PATNAME: 专利标题
+                            - YXQ : 优先权
+                            - SQR: 申请/专利权人
+                            - DZ: 申请人地址
+                            - ENTNAME: 申请企业
+                            - SQRQ: 申请日期
+                            - ZFLNAME: 主分类号
+                            - IPC: 专利行业分类全称
+                            - ZY: 摘要
+                            - updated: 更新时间
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_patent_query/', request_body)
