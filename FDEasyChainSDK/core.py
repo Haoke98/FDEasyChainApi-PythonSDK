@@ -990,3 +990,51 @@ class EasyChainCli:
             "page_size": page_size
         }
         return self.__post__('/company_punish_query/', request_body)
+
+    def company_justice_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        司法协助查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 每页大小，默认20
+        :return: 司法协助数据，包含以下字段：
+                - data: 返回的数据对象
+                    - CASESFXZ: 司法协助数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - sfxz_jcdj: 司法协助-解除冻结相关数据
+                                - EXE_ITEM: 执行事项
+                                - EXE_NAME: 被执行股东
+                                - court: 执行法院
+                                - updated: 更新时间
+                            - sfxz_gqdj: 司法协助-主表相关数据
+                                - EXE_ITEM: 执行事项
+                                - entid_exe: 案号
+                                - EXE_NO: 执行法院
+                                - EXE_CONAM: 立案时间
+                                - ENTNAME: 被执行人姓名/名称
+                                - EXE_NAME: 被执行股东
+                                - court: 执行法院
+                                - updated: 更新时间
+                            - sfxz_gdbg: 司法协助-股东变更相关数据
+                                - EXE_ITEM: 执行事项
+                                - EXE_NAME: 被执行股东
+                                - court: 执行法院
+                                - updated: 更新时间
+                            - sfxz_cl: 司法协助-续行信息相关数据
+                                - EXE_ITEM: 执行事项
+                                - ENTNAME:被执行人姓名/名称
+                                - EXE_NAME: 被执行股东
+                                - court: 执行法院
+                                - updated: 更新时间
+                            - sfxz_djsx: 司法协助-冻结失效相关数据
+                                - INVREA: 失效原因
+                                - IDATE: 失效日期
+                                - updated: 更新时间
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_justice_query/', request_body)
