@@ -30,12 +30,12 @@ print(result)
     - [x] 高级筛选
 - 工商信息
     - [x] 企业基本信息
-    - [ ] 股东信息
-    - [ ] 高管信息
-    - [ ] 变更记录
-    - [ ] 企业对外投资
-    - [ ] 分支机构
-    - [ ] 企业关系链
+    - [x] 股东信息
+    - [x] 高管信息
+    - [x] 变更记录
+    - [x] 企业对外投资
+    - [x] 分支机构
+    - [x] 企业关系链
 - 司法诉讼
     - [x] 行政处罚
     - [x] 失信被执行人
@@ -70,7 +70,7 @@ print(result)
     - [x] 荣誉资质 (company_billboard_golory_query)
     - [x] 科技成果 (company_most_scitech_query)
     - [x] 融资信息 (company_vc_inv_query)
-    - [ ] 企业年报
+    - [x] 企业年报
 - 经营风险
     - [x] 股权质押 (company_impawn_query)
     - [x] 经营异常 (company_case_abnormity_query)
