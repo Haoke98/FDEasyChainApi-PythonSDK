@@ -352,12 +352,12 @@ class EasyChainCli:
                 - total: 返回总数
                 - datalist: 数据列表
                     - ENTNAME: 融资公司全称
-                    - investdate: 投资日期
-                    - invse_similar_money_name: 投资的近似金额名称
-                    - invse_detail_money: 投资的详细金额
-                    - invse_guess_particulars: 估值明细
-                    - invse_round_name: 投资的轮次名称
-                    - org_name: 机构名称
+                    - investdate: 融资发生日期
+                    - invse_similar_money_name: 融资金额范围（如：'1000万-2000万', '数千万人民币'）
+                    - invse_detail_money: 融资具体金额（单位：元）
+                    - invse_guess_particulars:  本轮融资后的企业估值
+                    - invse_round_name: 融资轮次（如：'天使轮','A轮', 'Pre-A轮'）
+                    - org_name: 投资/融资机构名称
         """
         request_body = {
             "key": key,
