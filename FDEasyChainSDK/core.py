@@ -1115,6 +1115,22 @@ class EasyChainCli:
         }
         return self.__post__('/company_icp_query/', request_body)
 
+    def fuzzy_query(self, key: str):
+        """
+        企业模糊搜索
+        :param key: 关键词
+        :return: 企业模糊搜索，包含以下字段：
+                - data: 返回列表
+                    - ENTNAME: 企业名称
+                    - entid: 企业id
+                    - historyname: 历史名
+                    - regcap: 注册资本
+        """
+        request_body = {
+            "key": key
+        }
+        return self.__post__('/fuzzy_query/', request_body)
+
     def company_punish_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
         行政处罚查询
@@ -1358,6 +1374,213 @@ class EasyChainCli:
             "page_size": page_size
         }
         return self.__post__('/company_bankruptcy_query/', request_body)
+
+    def entadvquery(self, filterFlag: str, keyEntName: str, keyEntNameFlag:str,
+                    keyOpscope: str, keyOpscopeFlag: str, keyAddr: str, keyAddrFlag: str,
+                    region_id: str, industry: str, esdate: str, regcap: str, ent_status:str,
+                    list_status:str, list_count:str, company_tech:str, pageNum: int = 1, pageSize: int = 20 ):
+        """
+        高级筛选
+        :param filterFlag: 搜索关系
+        :param keyEntName: 企业名称
+        :param keyEntNameFlag: 企业名称精度
+        :param keyOpscope: 经营范围
+        :param keyOpscopeFlag:经营范围精度
+        :param keyAddr: 注册地址
+        :param keyAddrFlag	: 注册地址精度
+        :param region_id: 省份地区
+        :param industry: 行业分类
+        :param esdate: 成立年限
+        :param regcap: 注册资本
+        :param ent_status: 企业状态
+        :param list_status: 上市状态
+        :param list_count: 融资信息
+        :param company_tech: 科技企业标签
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 高级筛选数据，包含以下字段：
+                - data: 返回列表
+                    - ent: 企业列表数据
+                        - total: 返回datalist总数
+                        - datalist: 数据列表
+                            - ent_name: 企业名称
+                            - uniscid: 纳税人识别号
+                            - faren: 法人
+                            - opscope: 经营范围
+                            - dom: 注册地址
+                            - region_name: 省份地区
+                            - nic_name: 行业名称
+                            - esdate: 成立日期
+                            - regcap: 注册资本
+                            - regcapcur: 注册资本单位币种
+                            - ent_status_name: 企业状态
+                            - listed_state: 上市状态
+                            - list_name: 融资轮次
+                            - company_tech_tag: 科技企业标签
+        """
+        request_body = {
+            "filterFlag":filterFlag,
+            "pageNum":pageNum,
+            "pageSize":pageSize,
+            "keyEntNameFlag":keyEntNameFlag,
+            "keyEntName":keyEntName,
+            "keyOpscopeFlag":keyOpscopeFlag,
+            "keyOpscope":keyOpscope,
+            "keyAddrFlag":keyAddrFlag,
+            "keyAddr":keyAddr,
+            "region_id":region_id,
+            "industry":industry,
+            "esdate":esdate,
+            "regcap":regcap,
+            "ent_status":ent_status,
+            "list_status":list_status,
+            "list_count":list_count,
+            "company_tech":company_tech
+        }
+        return self.__post__('/entadvquery/', request_body)
+    def company_listing_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        企业主板新三板上市查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 企业主板新三板上市查询数据，包含以下字段：
+        主板数据：    - data: 返回列表
+                    - STKCOM: 主板数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - STOCKCODE: 股票代码
+                            - STOCKSNAME: 股票简称
+                            - LIST_SEC: 上市版块
+                            - TRADE_MKT	: 交易市场
+                            - STK_TYPE: 股票类别
+                            - ISIN: ISIN编码
+                            - LIST_DATE: 上市日期
+                            - LIST_ENDDATE: 退市日期
+                            - STATUS_TYPE: 上市状态
+                            - SPECIAL_TYPE	: 特别处理状态
+                            - LEG_PERSON: 法定代表人
+                            - WEB_SITE: 公司官网
+                            - GEN_MANAGER: 总经理
+                            - DISTRICT_NO: 区号
+                            - BOARD_SECTRY	: 董事会秘书姓名
+                            - REPR: 证券事务代表姓名
+                            - PRI_BIZ: 主营业务
+                            - NON_PRI_BIZ: 兼营业务
+                            - PRI_PRD: 主营产品
+                            - CSRC_INDU: 证监会行业分类
+                            - COM_BRIEF: 公司简介
+                            - LOGO: 企业logo
+        新三板数据：  - data: 返回列表
+                    - STASCOM: 新三板数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - STOCKCODE: 股票代码
+                            - STOCKSNAME: 股票简介
+                            - LIST_SEC: 上市版块 1-两网及退市公司板块 2-挂牌公司板块
+                            - TRADE_MKT	: 交易市场
+                            - WEB_SITE: 公司官网
+                            - LEG_PERSON: 法定代表人
+                            - ORG_STATUS: 机构状态 1-成立, 2-筹建, 3-注销, 4-撤销筹建, 9-其他
+                            - CHAIRMAN: 董事长
+                            - GEN_MANAGER: 总经理
+                            - AREA	: 地区
+                            - BOARD_SECTRY: 董事会秘书姓名
+                            - REPR: 证券事务代表姓名
+                            - OFFICE_ADDR: 办公地址
+                            - POSTCODE_OFFICE: 办公地址邮政编码
+                            - SCOPE_BUSS	: 经营范围
+                            - PRI_BIZ: 主营业务
+                            - BRIEF_INTRO: 公司简介
+                            - LOGO: 企业logo
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_listing_query/', request_body)
+
+    def company_listed_pub_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        上市公司公告查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 上市公司公告数据，包含以下字段：
+                - data: 返回列表
+                    - LISTEDPUB: 企业上市公告数据
+                        - total: 返回总数
+                        - datalist: 数据列表
+                            - ENTNAME: 企业名称
+                            - secCode: 证券代码
+                            - secName: 证券简称
+                            - title: 公告标题
+                            - sdate: 公告日期
+                            - title: 公告标题
+                            - gtype_1: 公告分类
+                            - pdf_url: pdf原始地址
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_listed_pub_query/', request_body)
+
+    def company_aggre_list_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        港股上市
+        :param key: 关键词(港股企业完整名称)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 港股上市数据，包含以下字段：
+                - data: 返回列表
+                    - AGGRELIST: 港股上市数据
+                        - total: 返回datalist总数
+                        - datalist: 数据列表
+                            - ENTNAME: 公司名称
+                            - LIST_DATE: 上市日期
+                            - LIST_SECTOR: 上市版块:1 主板;2 创业板;3 中小企业板;4  新三板;5 科创板;6 香港证券交易所;7 美股
+                            - MKT_TYPE: 所属交易所:1 上交所;2 深交所;3 股份转让系统;4 香港证券交易所
+                            - SEC_CODE: 证券代码
+                            - SEC_SNAME: 证券简称
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_aggre_list_query/', request_body)
+
+    def company_listed_tenstk_query(self, key: str, page_index: int = 1, page_size: int = 20):
+        """
+        十大流通股东查询
+        :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
+        :param page_index: 页码索引，默认1
+        :param page_size: 页面大小，默认20
+        :return: 十大流通股东数据，包含以下字段：
+                - data: 返回列表
+                    - TENSTK: 十大流通股东数据
+                        - total: 返回datalist总数
+                        - datalist: 数据列表
+                            - ENTNAME: 企业名称
+                            - ENDDATE: 截止日期
+                            - A_STOCKCODE	: 证券代码
+                            - A_STOCKSNAME	: 证券简称
+                            - holder_list: 股东详情列表
+                            - NAME: 股东名称
+                            - CHNG_REAS_NAME: 变动原因
+                            - HOLD_NUM: 持有总数量
+                            - HOLD_PCT	: 持有比例
+                            - ADD_NUM	: 报告期内增减股份数量
+        """
+        request_body = {
+            "key": key,
+            "page_index": page_index,
+            "page_size": page_size
+        }
+        return self.__post__('/company_listed_tenstk_query/', request_body)
 
     def company_stockholder_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
