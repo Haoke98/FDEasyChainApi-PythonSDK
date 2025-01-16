@@ -223,7 +223,7 @@ class EasyChainCli:
                     - noticetype: 公告类型
                     - region_name: 地区名称
                     - btype: 角色
-                    - bidwinList: 中标方列表
+                    - bidInviteList: 招标方列表
                         - entid: 企业id
                         - ENTNAME: 企业名称
                     - bidWinList: 中标方列表

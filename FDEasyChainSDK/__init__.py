@@ -6,6 +6,6 @@
 @Software: PyCharm
 @disc:
 ======================================="""
-__version__ = "v1.1.0"
+__version__ = "v1.2.0"
 
 from .core import EasyChainCli
