@@ -414,7 +414,7 @@ class EasyChainCli:
         }
         return self.__post__('/company_aggre_cert_query/', request_body)
 
-    def company_mirland_transfer_query(self, key: str, page_index: int = 1, page_size: int = 20):
+    def company_mlrland_transfer_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
         企业土地转让查询
         :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
@@ -435,7 +435,7 @@ class EasyChainCli:
             "page_index": page_index,
             "page_size": page_size
         }
-        return self.__post__('/company_mirland_transfer_query/', request_body)
+        return self.__post__('/company_mlrland_transfer_query/', request_body)
 
     def company_job_info_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
