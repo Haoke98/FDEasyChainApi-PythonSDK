@@ -704,7 +704,7 @@ class EasyChainCli:
         }
         return self.__post__('/company_tax_arrears_query/', request_body)
 
-    def company_case_ywfwt_query(self, key: str, page_index: int = 1, page_size: int = 20):
+    def company_case_yzwfsx_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
         企业严重违法查询
         :param key: 关键词(企业id/企业完整名称/社会统一信用代码)
@@ -726,7 +726,7 @@ class EasyChainCli:
             "page_index": page_index,
             "page_size": page_size
         }
-        return self.__post__('/company_case_ywfwt_query/', request_body)
+        return self.__post__('/company_case_yzwfsx_query/', request_body)
 
     def company_standard_query(self, key: str, page_index: int = 1, page_size: int = 20):
         """
