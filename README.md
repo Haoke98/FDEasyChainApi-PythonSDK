@@ -91,6 +91,32 @@ print(result)
     - [x] 电信许可 (company_aggre_cert_query)
     - [x] 招投标信息 (company_bid_list_query)
 
+## 发布
+
+#### Generating distribution archives
+
+* Now run this command from the same directory where pyproject.toml is located:
+  ```shell
+  python setup.py sdist bdist_wheel
+  ```
+  This command should output a lot of text and once completed should generate two files in the dist directory:
+  ```shell
+  dist/
+  ├── example_package_YOUR_USERNAME_HERE-0.0.1-py3-none-any.whl
+  └── example_package_YOUR_USERNAME_HERE-0.0.1.tar.gz
+  ```
+
+#### Uploading the distribution archives
+
+* Now that you are registered, you can use twine to upload the distribution packages. You’ll need to install Twine:
+  ```shell
+  python3 -m pip install --upgrade twine
+  ```
+* Once installed, run Twine to upload all of the archives under dist:
+  ```shell
+  python3 -m twine upload --repository testpypi dist/*
+  ```
+
 ## License
 
 MIT
